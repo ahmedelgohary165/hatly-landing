@@ -1,0 +1,424 @@
+/* Hatly landing — final polish: typography, rhythm, mobile, performance */
+
+/* ——— Typography system ——— */
+body {
+  font-optical-sizing: auto;
+  letter-spacing: 0.01em;
+  line-height: 1.65;
+}
+
+.lp-page--polish {
+  gap: clamp(0.85rem, 2.8vw, 1.55rem);
+}
+
+.lp-hero-block--premium .lp-h1 {
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.lp-hero-block--premium .lp-h1-line--hot {
+  font-weight: 900;
+}
+
+.lp-hero-block--premium .lp-sub {
+  font-weight: 500;
+  line-height: 1.78;
+  text-wrap: pretty;
+}
+
+.lp-sec-title {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.28;
+  text-wrap: balance;
+  background:
+    radial-gradient(circle at 50% -20%, rgba(45, 212, 191, 0.14), transparent 52%),
+    linear-gradient(168deg, #141210 0%, #0f766e 72%, #141210 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.lp-sec-badge {
+  padding: 0.22rem 0.62rem;
+  border-radius: 999px;
+  background: rgba(236, 253, 245, 0.72);
+  border: 1px solid rgba(45, 212, 191, 0.22);
+  box-shadow: 0 6px 18px rgba(15, 118, 110, 0.06);
+}
+
+.lp-sec-sub {
+  font-weight: 500;
+  line-height: 1.68;
+  text-wrap: pretty;
+}
+
+.lp-why-card h3,
+.lp-how-card h3,
+.lp-srv-card-v2__text h3,
+.lp-offer-card__body h3 {
+  letter-spacing: -0.015em;
+}
+
+/* ——— Section flow & rhythm ——— */
+.lp-flow-divider {
+  height: 1px;
+  margin-block: clamp(0.15rem, 1vw, 0.35rem);
+  background: linear-gradient(
+    to left,
+    transparent 0%,
+    rgba(45, 212, 191, 0.08) 18%,
+    rgba(13, 148, 136, 0.38) 50%,
+    rgba(45, 212, 191, 0.08) 82%,
+    transparent 100%
+  );
+  opacity: 0.85;
+}
+
+.lp-flow-divider--glow {
+  position: relative;
+  height: 2px;
+  margin-block: clamp(0.25rem, 1.2vw, 0.5rem);
+  background: transparent;
+}
+
+.lp-flow-divider--glow::after {
+  content: '';
+  position: absolute;
+  inset-inline: 12%;
+  inset-block: 0;
+  border-radius: 999px;
+  background: linear-gradient(
+    to left,
+    transparent,
+    rgba(45, 212, 191, 0.55) 50%,
+    transparent
+  );
+  filter: blur(6px);
+  opacity: 0.55;
+}
+
+.lp-sec-band {
+  position: relative;
+  isolation: isolate;
+  margin-inline: clamp(-0.35rem, -1.5vw, 0);
+  padding: clamp(0.55rem, 2.2vw, 0.95rem) clamp(0.45rem, 2vw, 0.85rem);
+  border-radius: clamp(1.1rem, 3vw, 1.65rem);
+  overflow: clip;
+}
+
+.lp-sec-band--mint {
+  background:
+    radial-gradient(ellipse 90% 70% at 50% -20%, rgba(153, 246, 228, 0.22), transparent 58%),
+    linear-gradient(180deg, rgba(236, 253, 245, 0.35) 0%, rgba(250, 248, 244, 0.12) 100%);
+  border: 1px solid rgba(13, 148, 136, 0.06);
+  box-shadow:
+    0 24px 56px rgba(11, 79, 77, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+.lp-sec-band--warm {
+  background:
+    radial-gradient(ellipse 80% 60% at 80% 0%, rgba(255, 220, 180, 0.2), transparent 55%),
+    linear-gradient(180deg, rgba(255, 254, 252, 0.5) 0%, transparent 100%);
+}
+
+.lp-sec--services,
+.lp-sec--offers {
+  padding-block: clamp(0.5rem, 2vw, 0.75rem) 0.15rem;
+}
+
+.lp-sec:not(.lp-sec--services):not(.lp-sec--offers) {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 320px;
+}
+
+/* ——— Cards & interactions (subtle, premium) ——— */
+.lp-srv-card-v2,
+.lp-offer-card,
+.lp-why-card,
+.lp-how-card,
+.social-premium__card {
+  will-change: auto;
+}
+
+@media (hover: hover) {
+  .lp-srv-card-v2:hover,
+  .lp-offer-card:hover,
+  .lp-why-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .lp-srv-card-v2:hover .lp-srv-card-v2__img,
+  .lp-offer-card:hover .lp-offer-card__img {
+    transform: scale(1.05);
+  }
+}
+
+.lp-srv-card-v2,
+.lp-offer-card {
+  box-shadow:
+    0 12px 28px rgba(24, 20, 16, 0.05),
+    0 0 0 1px rgba(13, 148, 136, 0.05) inset;
+}
+
+.lp-offer-card__cta {
+  letter-spacing: 0.02em;
+}
+
+.lp-why-card {
+  transition:
+    transform 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.28s ease;
+}
+
+.lp-why-card:hover {
+  box-shadow:
+    0 20px 44px rgba(15, 118, 110, 0.1),
+    0 0 0 1px rgba(45, 212, 191, 0.18) inset;
+}
+
+.lp-how-card {
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.25s ease;
+}
+
+.lp-how-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 36px rgba(15, 118, 110, 0.08);
+}
+
+/* ——— Hero & phone ——— */
+.lp-hero-block--premium {
+  box-shadow:
+    0 36px 80px rgba(11, 79, 77, 0.09),
+    0 0 0 1px rgba(255, 255, 255, 0.5) inset,
+    0 0 48px rgba(45, 212, 191, 0.06);
+}
+
+.lp-hero-device {
+  filter: drop-shadow(0 24px 48px rgba(11, 79, 77, 0.18));
+}
+
+.app-phone-glow {
+  opacity: 0.72;
+}
+
+/* ——— Offers band highlight ——— */
+.lp-sec--offers .lp-sec-title {
+  filter: drop-shadow(0 4px 20px rgba(45, 212, 191, 0.12));
+}
+
+.lp-offers-track {
+  padding-inline: 0.12rem;
+  scroll-padding-inline: 0.75rem;
+}
+
+/* ——— Final CTA polish ——— */
+.lp-fin {
+  box-shadow:
+    0 28px 60px rgba(15, 92, 86, 0.32),
+    0 0 48px rgba(45, 212, 191, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.lp-btn-fin-play {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.25s ease,
+    filter 0.2s ease;
+}
+
+.lp-btn-fin-play:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.16);
+}
+
+.lp-btn-fin-outline:hover {
+  transform: translateY(-1px);
+}
+
+/* ——— Performance: lighter effects on mobile ——— */
+@media (max-width: 768px) {
+  .ambient-blob {
+    filter: blur(42px);
+    opacity: 0.65;
+  }
+
+  .lp-hero-blob {
+    filter: blur(36px);
+    opacity: 0.62;
+  }
+
+  .nav-cap,
+  .social-premium__card,
+  .app-phone-float {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .lp-srv-card-v2:hover,
+  .lp-offer-card:hover {
+    translate: none;
+  }
+}
+
+/* ——— Mobile: 360 / 390 / 430 ——— */
+@media (max-width: 430px) {
+  .app-main.app-main-v2 {
+    padding-inline: 0.72rem;
+    padding-top: 5.35rem;
+  }
+
+  .lp-hero-block--premium {
+    padding-inline: 0.35rem;
+    border-radius: 1.15rem;
+  }
+
+  .lp-hero-block--premium .lp-h1 {
+    font-size: clamp(1.62rem, 7.2vw + 0.35rem, 2.05rem);
+    max-width: 13ch;
+  }
+
+  .lp-btn-main--premium,
+  .lp-btn-second--premium {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .lp-cta-row--premium {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  .app-phone-wrap {
+    width: min(238px, 68vw);
+    max-width: calc(100% - 1rem);
+  }
+
+  .app-phone-float {
+    font-size: 0.5rem;
+    padding: 0.22rem 0.48rem;
+  }
+
+  .app-phone-float--1 {
+    inset-inline-start: -2%;
+    top: 2%;
+  }
+
+  .app-phone-float--2 {
+    inset-inline-end: -4%;
+  }
+
+  .app-phone-float--3 {
+    inset-inline-start: -2%;
+    bottom: 10%;
+  }
+
+  .lp-offers-track {
+    grid-auto-columns: min(88%, 260px);
+    gap: 0.48rem;
+    margin-inline: -0.12rem;
+    padding-inline: 0.12rem 0.35rem;
+  }
+
+  .lp-srv-grid--visual {
+    gap: 0.38rem;
+  }
+
+  .lp-sec-band {
+    margin-inline: 0;
+    padding-inline: 0.35rem;
+  }
+
+  .lp-gold-spark {
+    opacity: 0.55;
+  }
+}
+
+@media (max-width: 390px) {
+  .nav-cap-inner {
+    gap: 0.55rem;
+  }
+
+  .nav-wa-btn {
+    padding: 0.48rem 0.72rem;
+    font-size: 0.7rem;
+  }
+
+  .brand-logo__main {
+    max-width: min(6.5rem, 26vw);
+  }
+
+  .app-phone-screen {
+    min-height: 360px;
+    max-height: 400px;
+  }
+
+  .lp-fin-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .lp-btn-fin-play,
+  .lp-btn-fin-outline {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 360px) {
+  .app-main.app-main-v2 {
+    padding-inline: 0.58rem;
+  }
+
+  .social-premium__grid {
+    gap: 0.32rem;
+  }
+
+  .social-premium__label {
+    font-size: 0.56rem;
+  }
+
+  .app-phone-float--3 {
+    display: none;
+  }
+
+  .lp-why-grid {
+    gap: 0.38rem;
+  }
+
+  .lp-why-card {
+    padding: 0.55rem 0.5rem;
+  }
+}
+
+/* Prevent horizontal overflow */
+.lp-page--polish,
+.lp-sec-band,
+.lp-offers-track,
+.app-phone-wrap {
+  max-width: 100%;
+}
+
+.lp-offers-track {
+  overscroll-behavior-x: contain;
+}
+
+/* Image rendering & lazy sections */
+.lp-srv-card-v2__img,
+.lp-offer-card__img,
+.app-phone-cat-img,
+.app-phone-quick-img {
+  decoding: async;
+}
+
+.lp-srv-card-v2__thumb,
+.lp-offer-card__media {
+  contain: layout style paint;
+}
