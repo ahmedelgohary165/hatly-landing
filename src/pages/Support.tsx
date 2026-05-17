@@ -19,13 +19,21 @@ export function Support() {
         title="الدعم والمساعدة"
         lead="فريق هاتلي جاهز يساعدك في الطلبات، الدفع، الحساب، أو أي استفسار عن الخدمة."
       >
-        <div className="ip-cta-wrap">
+        <div className="ip-cta-wrap ip-cta-wrap--stack">
           <IpCta
             href={site.whatsappUrl}
             label="تواصل واتساب الآن"
             sublabel={`${site.phone} — أسرع قناة للدعم`}
             iconSrc={branding.icons.whatsapp}
           />
+          {site.email ? (
+            <IpCta
+              href={`mailto:${site.email}`}
+              label="راسلنا على البريد"
+              sublabel={site.email}
+              iconSrc={branding.icons.gmail}
+            />
+          ) : null}
         </div>
 
         <InfoCard icon="💡" title="قبل ما تكتب" variant="accent">

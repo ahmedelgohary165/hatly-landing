@@ -16,7 +16,7 @@ export const site = {
   instagramUrl: 'https://www.instagram.com/hatly_app1?igsh=MW42ZzBpdXZvbTBkOQ==',
   tiktokUrl: 'https://www.tiktok.com/@.hatly.app?_r=1&_t=ZS-96O3TRXfXxU',
   playStoreUrl: null as string | null,
-  email: null as string | null,
+  email: 'hatlyinfo78@gmail.com',
   launchStatus: 'متاح للتحميل',
   serviceAvailabilityNote: 'الخدمة تبدأ تدريجيًا في مناطق محددة',
 } as const;
@@ -36,20 +36,32 @@ export const landingCopy = {
   servicesTitle: 'كل اللي محتاجه في مكان واحد',
   offersBadge: 'عروض حصرية',
   offersTitle: 'عروض هاتلي',
-  offersSubtitle: 'وفّر على طلباتك المفضّلة من التطبيق',
+  offersSubtitle: 'اختيارات مميزة هتخلي طلباتك أسهل وأوفر.',
+  offersViewAll: 'شوف كل العروض',
   offerCta: 'اطلب الآن',
   whyBadge: 'ليه هاتلي؟',
   whyTitle: 'تجربة مصممة لراحتك',
   howTitle: 'اطلب اللي محتاجه… وسيبه على هاتلي',
-  finalBadge: 'انضم لأول الناس',
+  finalBadge: 'كن أول المنضمين',
   finalTitle: 'خليك من أول الناس اللي تجرب هاتلي',
-  finalSub:
-    'كل احتياجاتك اليومية في مكان واحد… وأسرع مما تتوقع.',
+  finalSub: 'هاتلي… أسهل من أي وقت — كل احتياجاتك في مكان واحد.',
+  finalTrustLines: [
+    'اطلب اللي نفسك فيه بسهولة',
+    'توصيل سريع لحد بابك',
+    'عروض وخدمات متنوعة',
+  ] as const,
   finalCtaPrimary: 'حمّل التطبيق',
   finalCtaSecondary: 'واتساب',
 } as const;
 
 /** شرائح عائمة حول الموبايل */
+export const phoneDeliveryChips = ['توصيل سريع', 'تتبّع الطلب', 'دفع عند الاستلام'] as const;
+
+export const phoneMiniOffers = [
+  { label: 'خصم ١٥٪', sub: 'هدايا' },
+  { label: 'ميكب', sub: 'من ١٤٩ ج' },
+] as const;
+
 export const phoneFloatChips = [
   { label: 'خصم اليوم 🔥', tone: 'hot' },
   { label: 'توصيل سريع', tone: 'mint' },
@@ -101,28 +113,34 @@ export const servicesContent = [
   },
 ] as const;
 
-export const offersContent = [
-  {
-    title: 'خصم على أول طلب',
-    subtitle: 'وفّر لما تجرب هاتلي لأول مرة',
-    imageKey: 'offer1' as const,
-  },
-  {
-    title: 'عروض الصيدلية',
-    subtitle: 'احتياجاتك الصحية بتوصيل سريع',
-    imageKey: 'offer2' as const,
-  },
-  {
-    title: 'هدايا ومناسبات',
-    subtitle: 'جهّز فرحتك من مكان واحد',
-    imageKey: 'offer3' as const,
-  },
+export const serviceAreasContent = {
+  title: 'المناطق اللي بنبدأ منها',
+  subtitle: 'الخدمة بتبدأ تدريجيًا، وهنوسع منطقة ورا منطقة.',
+  footnote: 'قريبًا في مناطق أكتر',
+  areas: [
+    'بنها',
+    'طوخ',
+    'التجمع',
+    'مدينة نصر',
+    'مصر الجديدة',
+    'المعادي',
+    'الرحاب',
+    'مدينتي',
+  ],
+} as const;
+
+/** روابط الهيدر — سطح المكتب */
+export const headerNavLinks = [
+  { to: '/offers', label: 'العروض' },
+  { to: '/support', label: 'الدعم' },
+  { to: '/privacy', label: 'الخصوصية' },
+  { to: '/links', label: 'الروابط' },
 ] as const;
 
 export const whyHatlyCards = [
   { title: 'أسرع', desc: 'توصيل سريع لحد بابك' },
   { title: 'أسهل', desc: 'كل طلباتك في تطبيق واحد' },
-  { title: 'أوفر', desc: 'عروض حسب منطقتك' },
+  { title: 'أوفر', desc: 'عروض مستمرة' },
   { title: 'أفرح', desc: 'هدايا ومناسبات جاهزة' },
 ] as const;
 
@@ -143,6 +161,7 @@ export const howItWorksSteps = [
 
 /** لروابط الهيدر الثانوية (سطح المكتب) */
 export const footerLegalPaths = [
+  { to: '/offers', label: 'العروض' },
   { to: '/privacy', label: 'سياسة الخصوصية' },
   { to: '/terms', label: 'الشروط والأحكام' },
   { to: '/account-deletion', label: 'حذف الحساب' },

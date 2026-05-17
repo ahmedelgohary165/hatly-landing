@@ -1,23 +1,22 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 
-import { branding } from '@/assets/branding';
 import { BrandLogo } from '@/components/BrandLogo';
+import { FloatingWhatsApp } from '@/components/FloatingWhatsApp';
+import { MobileNav } from '@/components/MobileNav';
 import { SocialLinksRow } from '@/components/SocialLinksRow';
+import { useScrolledHeader } from '@/hooks/useScrolledHeader';
+import { getAppDownloadUrl } from '@/config/download';
 import {
   footerLegalPaths,
   footerTagline,
-  site,
+  headerNavLinks,
 } from '@/config/site';
-
-const headerDesktopLinks = [
-  { to: '/support', label: 'دعم' },
-  { to: '/privacy', label: 'خصوصية' },
-  { to: '/links', label: 'روابط' },
-] as const;
 
 export function SiteLayout() {
   const { pathname } = useLocation();
   const isHome = pathname === '/';
+  const downloadHref = getAppDownloadUrl();
+  const scrolled = useScrolledHeader();
 
   return (
     <div className="app-shell" data-page={isHome ? 'home' : 'inner'}>
@@ -28,15 +27,15 @@ export function SiteLayout() {
         <div className="ambient-noise" />
       </div>
 
-      <header className="site-header-v2">
+      <header className={`site-header-v2${scrolled ? ' site-header-v2--scrolled' : ''}`}>
         <div className="nav-cap">
           <span className="nav-cap-gold-dot" aria-hidden />
           <span className="nav-cap-gold-dot" aria-hidden />
           <div className="nav-cap-inner">
             <BrandLogo layout="nav" />
 
-            <nav className="nav-cap-links" aria-label="روابط سريعة">
-              {headerDesktopLinks.map(({ to, label }) => (
+            <nav className="nav-cap-links nav-cap-links--desktop" aria-label="روابط سريعة">
+              {headerNavLinks.map(({ to, label }) => (
                 <NavLink
                   key={to}
                   to={to}
@@ -47,20 +46,14 @@ export function SiteLayout() {
               ))}
             </nav>
 
+            <MobileNav downloadHref={downloadHref} />
             <a
-              className="nav-wa-btn"
-              href={site.whatsappUrl}
+              className="nav-download-btn nav-download-btn--header"
+              href={downloadHref}
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img
-                src={branding.icons.whatsapp}
-                alt=""
-                className="nav-wa-btn__icon"
-                width={18}
-                height={18}
-              />
-              واتساب
+              تحميل التطبيق
             </a>
           </div>
         </div>
@@ -96,6 +89,8 @@ export function SiteLayout() {
           <p className="site-credit">Developed by Ahmed Elgohary</p>
         </div>
       </footer>
+
+      <FloatingWhatsApp />
     </div>
   );
 }

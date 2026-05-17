@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { SiteLayout } from '@/components/SiteLayout';
 import { AccountDeletion } from '@/pages/AccountDeletion';
 import { Home } from '@/pages/Home';
+import { Offers } from '@/pages/Offers';
 import { Links } from '@/pages/Links';
 import { Privacy } from '@/pages/Privacy';
 import { Support } from '@/pages/Support';
@@ -13,6 +14,7 @@ export default function App() {
       <Routes>
         <Route element={<SiteLayout />}>
           <Route index element={<Home />} />
+          <Route path="offers" element={<Offers />} />
           <Route path="privacy" element={<Privacy />} />
           <Route path="terms" element={<Terms />} />
           <Route path="account-deletion" element={<AccountDeletion />} />

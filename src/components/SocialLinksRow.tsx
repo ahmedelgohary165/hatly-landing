@@ -40,6 +40,7 @@ export function SocialLinksRow({
   variant = 'hero',
 }: SocialLinksRowProps) {
   const email = site.email?.trim();
+  const isFooter = variant === 'footer';
 
   return (
     <div
@@ -56,18 +57,21 @@ export function SocialLinksRow({
             target="_blank"
             rel="noopener noreferrer"
             role="listitem"
+            aria-label={label}
+            title={label}
           >
             <span className="social-premium__icon-wrap">
               <img src={icon} alt="" className="social-premium__icon" width={32} height={32} />
             </span>
-            <span className="social-premium__label">{label}</span>
+            {!isFooter ? <span className="social-premium__label">{label}</span> : null}
           </a>
         ))}
         {email ? (
           <a
             href={`mailto:${email}`}
-            className="social-premium__card social-premium__card--gm"
+            className={`social-premium__card social-premium__card--gm${isFooter ? ' social-premium__card--gm-footer' : ''}`}
             role="listitem"
+            aria-label={`بريد ${email}`}
           >
             <span className="social-premium__icon-wrap">
               <img
@@ -78,7 +82,11 @@ export function SocialLinksRow({
                 height={32}
               />
             </span>
-            <span className="social-premium__label">بريد</span>
+            {isFooter ? (
+              <span className="social-premium__email-text">{email}</span>
+            ) : (
+              <span className="social-premium__label">بريد</span>
+            )}
           </a>
         ) : null}
       </div>

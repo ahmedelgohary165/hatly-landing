@@ -1,10 +1,26 @@
 import { branding } from '@/assets/branding';
-import { phoneAppCategories, phoneFloatChips, phoneQuickPicks } from '@/config/site';
+import {
+  phoneAppCategories,
+  phoneDeliveryChips,
+  phoneFloatChips,
+  phoneMiniOffers,
+  phoneQuickPicks,
+} from '@/config/site';
 
 export function PhoneMockup() {
   return (
     <div className="app-phone-wrap" aria-hidden>
       <div className="app-phone-glow" />
+
+      {phoneMiniOffers.map((offer, i) => (
+        <span
+          key={offer.sub}
+          className={`app-phone-mini-offer app-phone-mini-offer--${i + 1}`}
+        >
+          <strong>{offer.label}</strong>
+          <span>{offer.sub}</span>
+        </span>
+      ))}
 
       {phoneFloatChips.map((chip, i) => (
         <span
@@ -50,12 +66,20 @@ export function PhoneMockup() {
             <span>دور على منتج، متجر، أو طلب…</span>
           </div>
 
-          <div className="app-phone-promo">
+          <div className="app-phone-delivery-chips">
+            {phoneDeliveryChips.map((chip) => (
+              <span key={chip} className="app-phone-delivery-chip">
+                {chip}
+              </span>
+            ))}
+          </div>
+
+          <div className="app-phone-promo app-phone-promo--pulse">
             <div className="app-phone-promo-text">
               <strong>عرض الأسبوع</strong>
               <span>خصم على طلبات مختارة — لفترة محدودة</span>
             </div>
-            <span className="app-phone-promo-tag">جديد</span>
+            <span className="app-phone-promo-tag app-phone-promo-tag--pulse">جديد</span>
           </div>
 
           <p className="app-phone-label">الأقسام</p>

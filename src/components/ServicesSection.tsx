@@ -12,7 +12,7 @@ export function ServicesSection() {
       </div>
       <div className="lp-srv-grid lp-srv-grid--visual" role="list">
         {servicesContent.map(({ title, desc, imageKey }) => (
-          <article key={title} className="lp-srv-card-v2" role="listitem">
+          <article key={title} className="lp-srv-card-v2 lp-srv-card-v2--premium" role="listitem">
             <div className="lp-srv-card-v2__thumb">
               <img
                 src={branding.services[imageKey]}

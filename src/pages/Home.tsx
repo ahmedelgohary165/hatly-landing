@@ -1,4 +1,5 @@
 import { OffersSection } from '@/components/OffersSection';
+import { ServiceAreasSection } from '@/components/ServiceAreasSection';
 import { PageMeta } from '@/components/PageMeta';
 import { PhoneMockup } from '@/components/PhoneMockup';
 import { ServicesSection } from '@/components/ServicesSection';
@@ -17,7 +18,7 @@ export function Home() {
         path="/"
       />
 
-      <div className="lp-page lp-page--polish">
+      <div className="lp-page lp-page--polish lp-page--premium">
         <section
           className="lp-hero-block lp-hero-block--premium"
           aria-labelledby="lp-main-title"
@@ -26,7 +27,9 @@ export function Home() {
             <div className="lp-hero-blob lp-hero-blob--mint" />
             <div className="lp-hero-blob lp-hero-blob--teal" />
             <div className="lp-hero-blob lp-hero-blob--warm" />
+            <div className="lp-hero-blob lp-hero-blob--gold" aria-hidden />
             <div className="lp-hero-particles" />
+            <div className="lp-hero-shimmer" aria-hidden />
           </div>
 
           <span className="lp-gold-spark lp-gold-spark--1" aria-hidden />
@@ -42,7 +45,7 @@ export function Home() {
               <span className="lp-badge">{landingCopy.heroBadge}</span>
 
               <h1 id="lp-main-title" className="lp-h1">
-                <span className="lp-h1-line">{landingCopy.heroHeadlineLine1}</span>
+                <span className="lp-h1-line lp-h1-line--brand">{landingCopy.heroHeadlineLine1}</span>
                 <span className="lp-h1-line lp-h1-line--hot">{landingCopy.heroHeadlineLine2}</span>
                 <span className="lp-h1-line">{landingCopy.heroHeadlineLine3}</span>
               </h1>
@@ -125,14 +128,22 @@ export function Home() {
           </div>
         </section>
 
-        <section className="lp-fin" aria-labelledby="lp-fin-head">
+        <ServiceAreasSection />
+
+        <section className="lp-fin lp-fin--premium" aria-labelledby="lp-fin-head">
           <span className="lp-fin-pattern" aria-hidden />
-          <div className="lp-fin-inner">
+          <span className="lp-fin-glow" aria-hidden />
+          <div className="lp-fin-inner lp-reveal">
             <span className="lp-fin-badge">{landingCopy.finalBadge}</span>
             <h2 id="lp-fin-head" className="lp-fin-title">
               {landingCopy.finalTitle}
             </h2>
             <p className="lp-fin-sub">{landingCopy.finalSub}</p>
+            <ul className="lp-fin-trust">
+              {landingCopy.finalTrustLines.map((line) => (
+                <li key={line}>{line}</li>
+              ))}
+            </ul>
             <div className="lp-fin-actions">
               <a
                 className="lp-btn-fin-play"

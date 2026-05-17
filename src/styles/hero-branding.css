@@ -479,10 +479,10 @@
   box-shadow: none;
 }
 
-.social-premium--footer .social-premium__card {
-  flex-direction: row;
-  padding: 0.4rem 0.65rem;
-  background: rgba(255, 255, 255, 0.65);
+.social-premium--footer .social-premium__card:not(.social-premium__card--gm-footer) {
+  flex-direction: column;
+  padding: 0.35rem;
+  background: rgba(255, 255, 255, 0.78);
 }
 
 .social-premium--footer .social-premium__icon-wrap {
