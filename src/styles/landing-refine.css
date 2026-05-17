@@ -1,0 +1,251 @@
+/* Final polish — typography, calm surfaces, service cards, mobile */
+
+/* ——— Hide removed decorative noise ——— */
+.lp-gold-spark,
+.lp-hero-particles,
+.nav-cap-gold-dot,
+.ambient-noise {
+  display: none !important;
+}
+
+/* ——— Global typography ——— */
+body {
+  font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ——— Hero ——— */
+.lp-hero-block--premium {
+  padding: clamp(0.75rem, 2.5vw, 1.25rem) clamp(0.4rem, 2vw, 1.25rem)
+    clamp(0.9rem, 2.5vw, 1.1rem);
+}
+
+.lp-hero-block--premium .lp-h1 {
+  line-height: 1.12;
+  letter-spacing: 0.015em;
+  font-weight: 900;
+}
+
+.lp-hero-block--premium .lp-h1-line {
+  display: block;
+}
+
+.lp-hero-block--premium .lp-h1-line--brand {
+  letter-spacing: 0.02em;
+}
+
+.lp-hero-block--premium .lp-sub {
+  line-height: 1.78;
+  letter-spacing: 0.012em;
+  font-weight: 500;
+  margin-top: 0.65rem;
+}
+
+.lp-hero-block--premium .lp-micro {
+  letter-spacing: 0.05em;
+  font-weight: 700;
+}
+
+.lp-hero-shimmer {
+  opacity: 0.28;
+}
+
+.lp-hero-copy {
+  gap: 0.15rem;
+}
+
+.lp-cta-row--premium {
+  margin-top: clamp(1.1rem, 3.2vw, 1.4rem);
+  gap: 0.58rem;
+}
+
+.lp-btn-main--premium,
+.lp-btn-second--premium {
+  letter-spacing: 0.02em;
+  font-weight: 800;
+}
+
+/* ——— Section titles ——— */
+.lp-sec-title {
+  line-height: 1.28;
+  letter-spacing: 0.02em;
+  font-weight: 900;
+}
+
+.lp-sec-sub {
+  line-height: 1.72;
+  letter-spacing: 0.01em;
+  font-weight: 500;
+}
+
+.lp-sec-badge {
+  letter-spacing: 0.045em;
+  font-weight: 800;
+}
+
+/* ——— Service cards ——— */
+.lp-srv-card-v2 {
+  box-shadow:
+    0 8px 22px rgba(24, 20, 16, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  border-color: rgba(13, 148, 136, 0.07);
+}
+
+.lp-srv-card-v2:hover {
+  translate: 0 -3px;
+  box-shadow:
+    0 14px 32px rgba(15, 118, 110, 0.1),
+    0 0 16px rgba(45, 212, 191, 0.08);
+}
+
+.lp-srv-card-v2__thumb {
+  height: clamp(4.1rem, 15vw, 5.1rem);
+  padding: 0.45rem 0.55rem;
+}
+
+.lp-srv-card-v2__img {
+  width: auto;
+  max-width: 88%;
+  height: auto;
+  max-height: 100%;
+  margin-inline: auto;
+}
+
+.lp-srv-card-v2__text {
+  padding: 0.48rem 0.52rem 0.58rem;
+}
+
+.lp-srv-card-v2__text h3 {
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+}
+
+.lp-srv-card-v2__text p {
+  line-height: 1.5;
+  letter-spacing: 0.008em;
+}
+
+.lp-srv-grid--visual {
+  gap: 0.48rem;
+}
+
+/* ——— Cards / why / how ——— */
+.lp-why-card h3,
+.lp-how-card h3 {
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+}
+
+.lp-why-card p,
+.lp-how-card p {
+  line-height: 1.65;
+  letter-spacing: 0.01em;
+}
+
+/* ——— Offer cards ——— */
+.lp-offer-card__body h3 {
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+}
+
+.lp-offer-card__body p {
+  line-height: 1.55;
+}
+
+/* ——— Footer ——— */
+.footer-nav a {
+  letter-spacing: 0.02em;
+  font-weight: 750;
+}
+
+.footer-tagline {
+  line-height: 1.55;
+  letter-spacing: 0.01em;
+}
+
+/* ——— Inner / policy pages ——— */
+.ip-title {
+  font-weight: 900;
+  line-height: 1.24;
+  letter-spacing: 0.01em;
+}
+
+.ip-lead {
+  line-height: 1.82;
+  letter-spacing: 0.012em;
+  font-weight: 500;
+}
+
+.ip-card__title {
+  letter-spacing: 0.015em;
+  line-height: 1.38;
+}
+
+.ip-card__content {
+  line-height: 1.78;
+  letter-spacing: 0.01em;
+}
+
+.ip-chip {
+  letter-spacing: 0.02em;
+  font-weight: 700;
+}
+
+.ip-cta strong {
+  letter-spacing: 0.01em;
+}
+
+.nav-download-btn--header {
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+/* ——— Mobile breathing room ——— */
+@media (max-width: 430px) {
+  .lp-page--premium {
+    gap: clamp(1.25rem, 4vw, 1.65rem);
+  }
+
+  .lp-hero-block--premium .lp-h1 {
+    max-width: 11.5ch;
+    margin-inline: auto;
+  }
+
+  .lp-hero-block--premium .lp-sub {
+    max-width: 34ch;
+    margin-inline: auto;
+  }
+
+  .lp-hero-copy {
+    padding-inline: 0.15rem;
+  }
+
+  .lp-sec {
+    padding-inline: 0.1rem;
+  }
+
+  .lp-srv-grid--visual {
+    gap: 0.52rem;
+  }
+
+  .lp-why-grid,
+  .lp-how-grid {
+    gap: 0.48rem;
+  }
+
+  .ip-page {
+    gap: 1rem;
+  }
+
+  .ip-stack {
+    gap: 0.62rem;
+  }
+}
+
+@media (max-width: 390px) {
+  .lp-hero-block--premium .lp-cta-row {
+    width: 100%;
+  }
+}

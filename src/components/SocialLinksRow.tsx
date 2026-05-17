@@ -32,14 +32,17 @@ type SocialLinksRowProps = {
   id?: string;
   className?: string;
   variant?: 'hero' | 'footer';
+  /** عند false لا يُعرض بريد Gmail (مثل الفوتر — البريد في عمود منفصل) */
+  includeEmail?: boolean;
 };
 
 export function SocialLinksRow({
   id,
   className = '',
   variant = 'hero',
+  includeEmail = true,
 }: SocialLinksRowProps) {
-  const email = site.email?.trim();
+  const email = includeEmail ? site.email?.trim() : '';
   const isFooter = variant === 'footer';
 
   return (

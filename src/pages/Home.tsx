@@ -27,14 +27,8 @@ export function Home() {
             <div className="lp-hero-blob lp-hero-blob--mint" />
             <div className="lp-hero-blob lp-hero-blob--teal" />
             <div className="lp-hero-blob lp-hero-blob--warm" />
-            <div className="lp-hero-blob lp-hero-blob--gold" aria-hidden />
-            <div className="lp-hero-particles" />
             <div className="lp-hero-shimmer" aria-hidden />
           </div>
-
-          <span className="lp-gold-spark lp-gold-spark--1" aria-hidden />
-          <span className="lp-gold-spark lp-gold-spark--2" aria-hidden />
-          <span className="lp-gold-spark lp-gold-spark--3" aria-hidden />
 
           <div className="lp-hero-stage">
             <div className="lp-hero-device">

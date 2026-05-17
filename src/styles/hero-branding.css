@@ -7,50 +7,41 @@
 }
 
 .brand-logo {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.62rem;
-}
-
-.brand-logo__mark {
-  width: clamp(2.15rem, 8vw, 2.55rem);
-  height: clamp(2.15rem, 8vw, 2.55rem);
-  object-fit: contain;
-  filter: drop-shadow(0 6px 14px rgba(15, 118, 110, 0.22));
-}
-
-.brand-logo__word {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.08rem;
-  min-width: 0;
+  gap: 0.48rem;
+  flex-wrap: nowrap;
 }
 
 .brand-logo__main {
   width: auto;
-  height: clamp(1.35rem, 4.2vw, 1.72rem);
-  max-width: min(7.5rem, 28vw);
+  height: clamp(1.55rem, 4.8vw, 2rem);
+  max-width: min(8.5rem, 32vw);
   object-fit: contain;
-  object-position: right center;
+  object-position: center;
+  filter: drop-shadow(0 4px 12px rgba(15, 118, 110, 0.18));
+  flex-shrink: 0;
 }
 
-.brand-logo__en {
-  font-size: 0.52rem;
-  font-weight: 800;
-  letter-spacing: 0.18em;
-  color: rgba(28, 25, 23, 0.42);
-  text-transform: uppercase;
+.brand-logo__ar {
+  font-weight: 900;
+  font-size: clamp(1.05rem, 3.2vw, 1.28rem);
   line-height: 1;
+  letter-spacing: 0.01em;
+  background: linear-gradient(120deg, #0b4f4d, #0d9488 52%, #2dd4bf);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  white-space: nowrap;
 }
 
 .brand-logo--footer .brand-logo__main {
-  height: 1.45rem;
+  height: clamp(1.9rem, 5.2vw, 2.45rem);
+  max-width: min(9.5rem, 38vw);
 }
 
-.brand-logo--footer .brand-logo__mark {
-  width: 2rem;
-  height: 2rem;
+.brand-logo--footer .brand-logo__ar {
+  font-size: clamp(1.2rem, 3.6vw, 1.5rem);
 }
 
 /* Nav polish */

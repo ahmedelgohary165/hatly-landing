@@ -162,10 +162,10 @@ export const howItWorksSteps = [
 /** لروابط الهيدر الثانوية (سطح المكتب) */
 export const footerLegalPaths = [
   { to: '/offers', label: 'العروض' },
-  { to: '/privacy', label: 'سياسة الخصوصية' },
   { to: '/terms', label: 'الشروط والأحكام' },
-  { to: '/account-deletion', label: 'حذف الحساب' },
+  { to: '/privacy', label: 'سياسة الخصوصية' },
   { to: '/support', label: 'الدعم' },
+  { to: '/account-deletion', label: 'حذف الحساب' },
 ] as const;
 
 export const footerTagline =

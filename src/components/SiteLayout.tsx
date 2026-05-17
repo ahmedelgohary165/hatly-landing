@@ -1,6 +1,7 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 
 import { BrandLogo } from '@/components/BrandLogo';
+import { FooterMail } from '@/components/FooterMail';
 import { FloatingWhatsApp } from '@/components/FloatingWhatsApp';
 import { MobileNav } from '@/components/MobileNav';
 import { SocialLinksRow } from '@/components/SocialLinksRow';
@@ -24,13 +25,10 @@ export function SiteLayout() {
         <div className="ambient-blob ambient-blob--a" />
         <div className="ambient-blob ambient-blob--b" />
         <div className="ambient-blob ambient-blob--c" />
-        <div className="ambient-noise" />
       </div>
 
       <header className={`site-header-v2${scrolled ? ' site-header-v2--scrolled' : ''}`}>
         <div className="nav-cap">
-          <span className="nav-cap-gold-dot" aria-hidden />
-          <span className="nav-cap-gold-dot" aria-hidden />
           <div className="nav-cap-inner">
             <BrandLogo layout="nav" />
 
@@ -67,26 +65,27 @@ export function SiteLayout() {
 
       <footer className="site-footer-v2">
         <div className="site-footer-wrap">
-          <div>
+          <div className="footer-col footer-col--brand">
             <BrandLogo layout="footer" link={false} />
             <p className="footer-tagline">{footerTagline}</p>
-          </div>
-          <div>
-            <nav className="footer-nav" aria-label="روابط مهمة">
+            <nav className="footer-nav footer-nav--under-brand" aria-label="روابط مهمة">
               {footerLegalPaths.map(({ to, label }) => (
                 <NavLink key={to} to={to}>
                   {label}
                 </NavLink>
               ))}
             </nav>
-            <div className="footer-social-slot">
-              <SocialLinksRow variant="footer" />
+            <div className="footer-social-slot footer-social-slot--under-brand">
+              <SocialLinksRow variant="footer" includeEmail={false} />
             </div>
             <p className="footer-copy-sm">
               الموقع للتواصل والسياسات — لا حساب مستخدم أو دفع هنا حاليًا.
             </p>
           </div>
-          <p className="site-credit">Developed by Ahmed Elgohary</p>
+          <div className="footer-col footer-col--mail">
+            <FooterMail />
+          </div>
+          <p className="site-credit site-footer-wrap__credit">Developed by Ahmed Elgohary</p>
         </div>
       </footer>
 
