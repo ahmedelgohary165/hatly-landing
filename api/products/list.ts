@@ -2,6 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { isOperatorAuthorized } from '../_lib/auth';
 import {
+  databaseErrorResponse,
   dbNotConfiguredResponse,
   isDatabaseConfigured,
   methodNotAllowed,
@@ -22,7 +23,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const products = await fetchLandingProducts(includeHidden);
     return res.status(200).json({ ok: true, products, includeHidden });
   } catch (error) {
-    console.error('list products failed', error);
-    return res.status(500).json({ error: 'تعذر تحميل المنتجات.', code: 'DB_ERROR' });
+    return databaseErrorResponse(res, 'list products failed', error);
   }
 }

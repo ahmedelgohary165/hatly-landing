@@ -1,10 +1,12 @@
 import { NavLink } from 'react-router-dom';
 
 import { OfferCard } from '@/components/OfferCard';
-import { featuredOffers } from '@/config/offers';
+import { usePublicOffers } from '@/hooks/usePublicOffers';
 import { landingCopy } from '@/config/site';
 
 export function OffersSection() {
+  const { featuredOffers, loading } = usePublicOffers();
+
   return (
     <section className="lp-sec lp-sec--offers" aria-labelledby="lp-offers-head">
       <div className="lp-sec-head lp-sec-head--tight">
@@ -14,6 +16,8 @@ export function OffersSection() {
         </h2>
         <p className="lp-sec-sub">{landingCopy.offersSubtitle}</p>
       </div>
+
+      {loading ? <p className="operator-message">جاري تحميل العروض…</p> : null}
 
       <div className="lp-offers-track" role="list">
         {featuredOffers.map((offer) => (

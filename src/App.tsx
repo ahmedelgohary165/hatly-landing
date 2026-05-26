@@ -7,6 +7,7 @@ import { OfferDetail } from '@/pages/OfferDetail';
 import { Offers } from '@/pages/Offers';
 import { OperatorHub } from '@/pages/OperatorHub';
 import { OperatorOrders } from '@/pages/OperatorOrders';
+import { OperatorOffers } from '@/pages/OperatorOffers';
 import { OperatorProducts } from '@/pages/OperatorProducts';
 import { ProductDetail } from '@/pages/ProductDetail';
 import { Links } from '@/pages/Links';
@@ -27,6 +28,7 @@ export default function App() {
           <Route path="operator" element={<OperatorHub />} />
           <Route path="operator/orders" element={<OperatorOrders />} />
           <Route path="operator/products" element={<OperatorProducts />} />
+          <Route path="operator/offers" element={<OperatorOffers />} />
           <Route path="privacy" element={<Privacy />} />
           <Route path="terms" element={<Terms />} />
           <Route path="account-deletion" element={<AccountDeletion />} />

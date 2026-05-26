@@ -1,9 +1,11 @@
 import { OfferCard } from '@/components/OfferCard';
 import { InnerPageShell } from '@/components/InnerPageShell';
 import { PageMeta } from '@/components/PageMeta';
-import { offersCatalog } from '@/config/offers';
+import { usePublicOffers } from '@/hooks/usePublicOffers';
 
 export function Offers() {
+  const { offers, loading } = usePublicOffers();
+
   return (
     <>
       <PageMeta
@@ -17,8 +19,10 @@ export function Offers() {
         title="عروض هاتلي"
         lead="اختار العرض واضغط «عرض التفاصيل» — اختار طريقة الدفع، حوّل، ثم أكّد على واتساب."
       >
+        {loading ? <p className="operator-message">جاري تحميل العروض…</p> : null}
+
         <div className="offers-page-grid" role="list">
-          {offersCatalog.map((offer) => (
+          {offers.map((offer) => (
             <OfferCard key={offer.id} offer={offer} />
           ))}
         </div>

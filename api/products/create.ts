@@ -1,12 +1,15 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import {
+  databaseErrorResponse,
   dbNotConfiguredResponse,
   isDatabaseConfigured,
   methodNotAllowed,
   readJsonBody,
   requireOperatorAuth,
 } from '../_lib/http';
+import { generateNextProductCode } from '../_lib/codeGeneration';
+import { getPostgresErrorCode } from '../_lib/db';
 import { insertLandingProduct } from '../_lib/products';
 
 type CreateProductBody = {
@@ -42,13 +45,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ error: 'Invalid JSON body.' });
   }
 
-  const productCode = trim(body.productCode);
   const categoryId = trim(body.categoryId);
   const title = trim(body.title);
   const priceLabel = trim(body.priceLabel);
 
-  if (!productCode || !categoryId || !title || !priceLabel) {
+  if (!categoryId || !title || !priceLabel) {
     return res.status(400).json({ error: 'الحقول الأساسية مطلوبة.' });
+  }
+
+  let productCode = trim(body.productCode);
+  if (!productCode) {
+    productCode = await generateNextProductCode(categoryId);
   }
 
   try {
@@ -66,10 +73,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
     return res.status(201).json({ ok: true, product });
   } catch (error) {
-    console.error('create product failed', error);
-    const pgCode = (error as { code?: string }).code;
-    const message =
-      pgCode === '23505' ? 'كود المنتج مستخدم بالفعل.' : 'تعذر إضافة المنتج.';
-    return res.status(500).json({ error: message, code: 'DB_ERROR' });
+    if (getPostgresErrorCode(error) === '23505') {
+      return res.status(400).json({ ok: false, error: 'كود المنتج مستخدم بالفعل.' });
+    }
+    return databaseErrorResponse(res, 'create product failed', error);
   }
 }

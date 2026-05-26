@@ -50,3 +50,21 @@ CREATE INDEX IF NOT EXISTS landing_products_category_idx
 
 CREATE INDEX IF NOT EXISTS landing_products_available_idx
   ON landing_products (is_available, sort_order ASC);
+
+CREATE TABLE IF NOT EXISTS landing_offers (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  offer_code TEXT NOT NULL UNIQUE,
+  title TEXT NOT NULL,
+  description TEXT,
+  price_label TEXT NOT NULL,
+  old_price_label TEXT,
+  image_url TEXT,
+  badge TEXT,
+  is_available BOOLEAN NOT NULL DEFAULT TRUE,
+  sort_order INT NOT NULL DEFAULT 0
+);
+
+CREATE INDEX IF NOT EXISTS landing_offers_available_idx
+  ON landing_offers (is_available, sort_order ASC);

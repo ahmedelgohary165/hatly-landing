@@ -48,4 +48,9 @@ export function requireOperatorAuth(req: VercelRequest, res: VercelResponse): bo
   return true;
 }
 
+export function databaseErrorResponse(res: VercelResponse, context: string, error: unknown) {
+  console.error(`${context}`, error);
+  return res.status(500).json({ ok: false, error: 'DATABASE_ERROR' });
+}
+
 export { isOperatorAuthorized, operatorNotConfiguredResponse, operatorUnauthorizedResponse };

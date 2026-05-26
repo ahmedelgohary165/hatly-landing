@@ -76,10 +76,16 @@ export function CategoryProducts() {
 
         {!loading && products.length === 0 ? (
           <div className="products-empty" role="status">
-            <p className="products-empty__title">مفيش منتجات متاحة حاليًا</p>
-            <p className="products-empty__text">
-              بنحدّث المنتجات باستمرار — تواصل معانا على واتساب لو محتاج حاجة معينة.
+            <p className="products-empty__title">
+              {categoryId === 'toys'
+                ? 'سيتم إضافة ألعاب الأطفال قريبًا'
+                : 'مفيش منتجات متاحة حاليًا'}
             </p>
+            {categoryId !== 'toys' ? (
+              <p className="products-empty__text">
+                بنحدّث المنتجات باستمرار — تواصل معانا على واتساب لو محتاج حاجة معينة.
+              </p>
+            ) : null}
           </div>
         ) : null}
       </InnerPageShell>

@@ -1,4 +1,4 @@
-import { sql } from '@vercel/postgres';
+import { getSql } from './db';
 
 export type OrderStatus = 'new' | 'contacted' | 'confirmed' | 'cancelled';
 
@@ -42,7 +42,8 @@ export function isValidOrderStatus(status: string): status is OrderStatus {
 }
 
 export async function insertLandingOrder(input: CreateOrderInput): Promise<LandingOrderRow> {
-  const result = await sql<LandingOrderRow>`
+  const sql = getSql();
+  const rows = await sql<LandingOrderRow[]>`
     INSERT INTO landing_orders (
       customer_whatsapp,
       product_code,
@@ -73,7 +74,7 @@ export async function insertLandingOrder(input: CreateOrderInput): Promise<Landi
     RETURNING *
   `;
 
-  const row = result.rows[0];
+  const row = rows[0];
   if (!row) {
     throw new Error('Failed to insert order');
   }
@@ -82,24 +83,25 @@ export async function insertLandingOrder(input: CreateOrderInput): Promise<Landi
 }
 
 export async function fetchLandingOrders(): Promise<LandingOrderRow[]> {
-  const result = await sql<LandingOrderRow>`
+  const sql = getSql();
+  return sql<LandingOrderRow[]>`
     SELECT *
     FROM landing_orders
     ORDER BY created_at DESC
     LIMIT 200
   `;
-  return result.rows;
 }
 
 export async function updateLandingOrderStatus(
   id: string,
   status: OrderStatus,
 ): Promise<LandingOrderRow | null> {
-  const result = await sql<LandingOrderRow>`
+  const sql = getSql();
+  const rows = await sql<LandingOrderRow[]>`
     UPDATE landing_orders
     SET status = ${status}
     WHERE id = ${id}::uuid
     RETURNING *
   `;
-  return result.rows[0] ?? null;
+  return rows[0] ?? null;
 }

@@ -80,6 +80,12 @@ export const productCategories: ProductCategory[] = [
     imageKey: 'cosmetics',
   },
   {
+    id: 'toys',
+    title: 'لعب أطفال',
+    description: 'ألعاب وهدايا ممتعة للأطفال',
+    imageKey: 'toys',
+  },
+  {
     id: 'digitalMarketing',
     title: 'تسويق إلكتروني',
     description: 'خدمات سوشيال ميديا وتسويق.',

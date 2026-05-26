@@ -3,15 +3,30 @@ import { NavLink, useParams } from 'react-router-dom';
 import { ManualPaymentFlow } from '@/components/ManualPaymentFlow';
 import { InnerPageShell } from '@/components/InnerPageShell';
 import { PageMeta } from '@/components/PageMeta';
+import { useOfferByCode } from '@/hooks/usePublicOffers';
 import { DEFAULT_DELIVERY_LABEL } from '@/config/products';
 import type { PaymentMethodId } from '@/config/payment';
-import { getOfferByCode } from '@/config/offers';
 import { captureOfferOrderIntent } from '@/utils/orderCapture';
 import { getOfferConfirmationWhatsAppUrl, openWhatsAppUrl } from '@/utils/whatsapp';
 
 export function OfferDetail() {
   const { offerCode = '' } = useParams<{ offerCode: string }>();
-  const offer = getOfferByCode(offerCode);
+  const { offer, loading } = useOfferByCode(offerCode);
+
+  if (loading) {
+    return (
+      <>
+        <PageMeta
+          title="تفاصيل العرض — هاتلي"
+          description="جاري تحميل تفاصيل العرض."
+          path={`/offers/${offerCode}`}
+        />
+        <InnerPageShell badge="عروض حصرية" title="تفاصيل العرض" lead="جاري التحميل…">
+          <p className="operator-message">جاري تحميل العرض…</p>
+        </InnerPageShell>
+      </>
+    );
+  }
 
   if (!offer) {
     return (

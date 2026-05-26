@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+import { getPostgresErrorCode } from '../_lib/db';
 import {
   databaseErrorResponse,
   dbNotConfiguredResponse,
@@ -8,18 +9,16 @@ import {
   readJsonBody,
   requireOperatorAuth,
 } from '../_lib/http';
-import { getPostgresErrorCode } from '../_lib/db';
-import { updateLandingProduct } from '../_lib/products';
+import { updateLandingOffer } from '../_lib/offers';
 
-type UpdateProductBody = {
+type UpdateOfferBody = {
   id?: string;
-  productCode?: string;
-  categoryId?: string;
+  offerCode?: string;
   title?: string;
   description?: string;
   priceLabel?: string;
+  oldPriceLabel?: string;
   imageUrl?: string;
-  deliveryLabel?: string;
   badge?: string;
   isAvailable?: boolean;
   sortOrder?: number;
@@ -40,44 +39,42 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return dbNotConfiguredResponse(res);
   }
 
-  const body = readJsonBody<UpdateProductBody>(req);
+  const body = readJsonBody<UpdateOfferBody>(req);
   if (!body) {
     return res.status(400).json({ error: 'Invalid JSON body.' });
   }
 
   const id = trim(body.id);
-  const productCode = trim(body.productCode);
-  const categoryId = trim(body.categoryId);
+  const offerCode = trim(body.offerCode);
   const title = trim(body.title);
   const priceLabel = trim(body.priceLabel);
 
-  if (!id || !productCode || !categoryId || !title || !priceLabel) {
+  if (!id || !offerCode || !title || !priceLabel) {
     return res.status(400).json({ error: 'الحقول الأساسية مطلوبة.' });
   }
 
   try {
-    const product = await updateLandingProduct(id, {
-      productCode,
-      categoryId,
+    const offer = await updateLandingOffer(id, {
+      offerCode,
       title,
       description: trim(body.description) || undefined,
       priceLabel,
+      oldPriceLabel: trim(body.oldPriceLabel) || undefined,
       imageUrl: trim(body.imageUrl) || undefined,
-      deliveryLabel: trim(body.deliveryLabel) || undefined,
       badge: trim(body.badge) || undefined,
       isAvailable: body.isAvailable ?? true,
       sortOrder: typeof body.sortOrder === 'number' ? body.sortOrder : Number(body.sortOrder) || 0,
     });
 
-    if (!product) {
-      return res.status(404).json({ error: 'المنتج غير موجود.' });
+    if (!offer) {
+      return res.status(404).json({ error: 'العرض غير موجود.' });
     }
 
-    return res.status(200).json({ ok: true, product });
+    return res.status(200).json({ ok: true, offer });
   } catch (error) {
     if (getPostgresErrorCode(error) === '23505') {
-      return res.status(400).json({ ok: false, error: 'كود المنتج مستخدم بالفعل.' });
+      return res.status(400).json({ ok: false, error: 'كود العرض مستخدم بالفعل.' });
     }
-    return databaseErrorResponse(res, 'update product failed', error);
+    return databaseErrorResponse(res, 'update offer failed', error);
   }
 }

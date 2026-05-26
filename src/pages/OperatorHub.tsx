@@ -21,7 +21,7 @@ export function OperatorHub() {
           <InnerPageShell
             badge="داخلي"
             title="لوحة التشغيل"
-            lead="إدارة الطلبات والمنتجات — للفريق الداخلي فقط."
+            lead="إدارة الطلبات والمنتجات والعروض — للفريق الداخلي فقط."
             className="ip-page--operator"
           >
             <div className="operator-hub-grid">
@@ -38,6 +38,13 @@ export function OperatorHub() {
                 </span>
                 <strong>المنتجات</strong>
                 <span>إضافة وتعديل منتجات الموقع</span>
+              </NavLink>
+              <NavLink to="/operator/offers" className="operator-hub-card">
+                <span className="operator-hub-card__icon" aria-hidden>
+                  🏷️
+                </span>
+                <strong>العروض</strong>
+                <span>إضافة وتعديل عروض الموقع</span>
               </NavLink>
             </div>
             <div className="operator-toolbar">

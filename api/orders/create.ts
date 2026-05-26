@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import {
+  databaseErrorResponse,
   dbNotConfiguredResponse,
   isDatabaseConfigured,
   methodNotAllowed,
@@ -90,10 +91,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       },
     });
   } catch (error) {
-    console.error('create order failed', error);
-    return res.status(500).json({
-      error: 'تعذر حفظ الطلب. حاول مرة أخرى أو أكّد عبر واتساب.',
-      code: 'DB_ERROR',
-    });
+    return databaseErrorResponse(res, 'create order failed', error);
   }
 }

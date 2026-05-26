@@ -75,6 +75,7 @@ export const phoneAppCategories = [
   { label: 'هدايا', imageKey: 'gifts' as ServiceImageKey },
   { label: 'ميكب', imageKey: 'makeup' as ServiceImageKey },
   { label: 'تجميل', imageKey: 'cosmetics' as ServiceImageKey },
+  { label: 'ألعاب', imageKey: 'toys' as ServiceImageKey },
   { label: 'تسويق', imageKey: 'digitalMarketing' as ServiceImageKey },
   { label: 'رياضة', imageKey: 'sportswear' as ServiceImageKey },
   { label: 'مناسبات', imageKey: 'occasions' as ServiceImageKey },
@@ -100,6 +101,11 @@ export const servicesContent = [
     title: 'مستحضرات تجميل',
     desc: 'عناية وبشرة ومنتجات تجميل',
     imageKey: 'cosmetics' as ServiceImageKey,
+  },
+  {
+    title: 'لعب أطفال',
+    desc: 'ألعاب وهدايا ممتعة للأطفال',
+    imageKey: 'toys' as ServiceImageKey,
   },
   {
     title: 'تسويق إلكتروني',

@@ -61,6 +61,14 @@ export async function createLandingOrder(
       return { ok: false, code: 'DB_NOT_CONFIGURED' };
     }
 
+    if (response.status === 500) {
+      const errData = (await response.json().catch(() => ({}))) as { error?: string };
+      if (errData.error === 'DATABASE_ERROR') {
+        return { ok: false, code: 'DB_NOT_CONFIGURED' };
+      }
+      return { ok: false, code: 'API_ERROR' };
+    }
+
     if (!response.ok) {
       return { ok: false, code: 'API_ERROR' };
     }

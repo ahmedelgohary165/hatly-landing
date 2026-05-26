@@ -5,91 +5,88 @@ import { OperatorGate } from '@/components/OperatorGate';
 import { InnerPageShell } from '@/components/InnerPageShell';
 import { OperatorImageField } from '@/components/OperatorImageField';
 import { PageMeta } from '@/components/PageMeta';
-import { productCategories, DEFAULT_DELIVERY_LABEL } from '@/config/products';
 import {
-  archiveOperatorProduct,
-  createOperatorProduct,
-  fetchOperatorProducts,
-  updateOperatorProduct,
-  type DbLandingProduct,
-  type ProductFormInput,
-} from '@/utils/productsApi';
+  archiveOperatorOffer,
+  createOperatorOffer,
+  fetchOperatorOffers,
+  updateOperatorOffer,
+  type DbLandingOffer,
+  type OfferFormInput,
+} from '@/utils/offersApi';
 import { clearOperatorSession } from '@/utils/operatorAuth';
-import { previewNextProductCode } from '@/utils/operatorCodes';
+import { previewNextOfferCode } from '@/utils/operatorCodes';
 
-const EMPTY_FORM: ProductFormInput = {
-  productCode: '',
-  categoryId: 'gifts',
+const EMPTY_FORM: OfferFormInput = {
+  offerCode: '',
   title: '',
   description: '',
   priceLabel: '',
+  oldPriceLabel: '',
   imageUrl: '',
-  deliveryLabel: DEFAULT_DELIVERY_LABEL,
   badge: '',
   isAvailable: true,
   sortOrder: 0,
 };
 
-function productToForm(product: DbLandingProduct): ProductFormInput {
+function offerToForm(offer: DbLandingOffer): OfferFormInput {
   return {
-    productCode: product.product_code,
-    categoryId: product.category_id,
-    title: product.title,
-    description: product.description ?? '',
-    priceLabel: product.price_label,
-    imageUrl: product.image_url ?? '',
-    deliveryLabel: product.delivery_label || DEFAULT_DELIVERY_LABEL,
-    badge: product.badge ?? '',
-    isAvailable: product.is_available,
-    sortOrder: product.sort_order,
+    offerCode: offer.offer_code,
+    title: offer.title,
+    description: offer.description ?? '',
+    priceLabel: offer.price_label,
+    oldPriceLabel: offer.old_price_label ?? '',
+    imageUrl: offer.image_url ?? '',
+    badge: offer.badge ?? '',
+    isAvailable: offer.is_available,
+    sortOrder: offer.sort_order,
   };
 }
 
-export function OperatorProducts() {
+export function OperatorOffers() {
   return (
     <>
       <PageMeta
-        title="إدارة المنتجات — هاتلي"
-        description="لوحة داخلية لإدارة منتجات موقع هاتلي."
-        path="/operator/products"
+        title="إدارة العروض — هاتلي"
+        description="لوحة داخلية لإدارة عروض موقع هاتلي."
+        path="/operator/offers"
       />
-      <OperatorGate title="إدارة المنتجات" lead="أدخل كود التشغيل لإدارة المنتجات.">
-        {(sessionSecret) => <OperatorProductsPanel sessionSecret={sessionSecret} />}
+      <OperatorGate title="إدارة العروض" lead="أدخل كود التشغيل لإدارة العروض.">
+        {(sessionSecret) => <OperatorOffersPanel sessionSecret={sessionSecret} />}
       </OperatorGate>
     </>
   );
 }
 
-function OperatorProductsPanel({ sessionSecret }: { sessionSecret: string }) {
-  const [products, setProducts] = useState<DbLandingProduct[]>([]);
-  const [form, setForm] = useState<ProductFormInput>(EMPTY_FORM);
+function OperatorOffersPanel({ sessionSecret }: { sessionSecret: string }) {
+  const [offers, setOffers] = useState<DbLandingOffer[]>([]);
+  const [form, setForm] = useState<OfferFormInput>(EMPTY_FORM);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  const loadProducts = useCallback(async () => {
+  const loadOffers = useCallback(async () => {
     setLoading(true);
     setMessage(null);
-    const result = await fetchOperatorProducts(sessionSecret);
+    const result = await fetchOperatorOffers(sessionSecret);
     setLoading(false);
 
     if (!result.ok) {
-      setProducts([]);
+      setOffers([]);
       setMessage(result.message);
       return;
     }
 
-    setProducts(result.products);
+    setOffers(result.offers);
   }, [sessionSecret]);
 
   useEffect(() => {
-    void loadProducts();
-  }, [loadProducts]);
+    void loadOffers();
+  }, [loadOffers]);
 
-  const generatedProductCode = useMemo(
-    () => previewNextProductCode(form.categoryId, products.map((product) => product.product_code)),
-    [form.categoryId, products],
+  const generatedOfferCode = useMemo(
+    () => previewNextOfferCode(offers.map((offer) => offer.offer_code)),
+    [offers],
   );
 
   const handleSubmit = async (event: FormEvent) => {
@@ -97,13 +94,13 @@ function OperatorProductsPanel({ sessionSecret }: { sessionSecret: string }) {
     setSaving(true);
     setMessage(null);
 
-    const payload: ProductFormInput = editingId
+    const payload: OfferFormInput = editingId
       ? form
-      : { ...form, productCode: generatedProductCode };
+      : { ...form, offerCode: generatedOfferCode };
 
     const result = editingId
-      ? await updateOperatorProduct(sessionSecret, editingId, payload)
-      : await createOperatorProduct(sessionSecret, payload);
+      ? await updateOperatorOffer(sessionSecret, editingId, payload)
+      : await createOperatorOffer(sessionSecret, payload);
 
     setSaving(false);
 
@@ -114,41 +111,41 @@ function OperatorProductsPanel({ sessionSecret }: { sessionSecret: string }) {
 
     setForm(EMPTY_FORM);
     setEditingId(null);
-    await loadProducts();
+    await loadOffers();
   };
 
-  const handleEdit = (product: DbLandingProduct) => {
-    setEditingId(product.id);
-    setForm(productToForm(product));
+  const handleEdit = (offer: DbLandingOffer) => {
+    setEditingId(offer.id);
+    setForm(offerToForm(offer));
     setMessage(null);
   };
 
   const handleArchive = async (id: string) => {
     setMessage(null);
-    const result = await archiveOperatorProduct(sessionSecret, id);
+    const result = await archiveOperatorOffer(sessionSecret, id);
     if (!result.ok) {
-      setMessage(result.message ?? 'تعذر إخفاء المنتج.');
+      setMessage(result.message ?? 'تعذر إخفاء العرض.');
       return;
     }
     if (editingId === id) {
       setEditingId(null);
       setForm(EMPTY_FORM);
     }
-    await loadProducts();
+    await loadOffers();
   };
 
   return (
     <InnerPageShell
       badge="داخلي"
-      title="إدارة المنتجات"
-      lead="أضف أو عدّل منتجات الموقع. الإخفاء لا يحذف المنتج من قاعدة البيانات."
+      title="إدارة العروض"
+      lead="أضف أو عدّل عروض الموقع. الإخفاء لا يحذف العرض من قاعدة البيانات."
       className="ip-page--operator"
     >
       <div className="operator-toolbar">
         <NavLink to="/operator" className="operator-toolbar__btn">
           لوحة التشغيل
         </NavLink>
-        <button type="button" className="operator-toolbar__btn" onClick={() => void loadProducts()}>
+        <button type="button" className="operator-toolbar__btn" onClick={() => void loadOffers()}>
           تحديث
         </button>
         <button
@@ -167,12 +164,10 @@ function OperatorProductsPanel({ sessionSecret }: { sessionSecret: string }) {
       {message ? <p className="operator-message operator-message--warn">{message}</p> : null}
 
       <form className="operator-product-form" onSubmit={(event) => void handleSubmit(event)}>
-        <h2 className="operator-product-form__title">
-          {editingId ? 'تعديل منتج' : 'إضافة منتج'}
-        </h2>
+        <h2 className="operator-product-form__title">{editingId ? 'تعديل عرض' : 'إضافة عرض'}</h2>
         <div className="operator-product-form__grid">
           <label className="product-order-flow__field">
-            <span>اسم المنتج</span>
+            <span>اسم العرض</span>
             <input
               value={form.title}
               onChange={(event) => setForm({ ...form, title: event.target.value })}
@@ -182,41 +177,35 @@ function OperatorProductsPanel({ sessionSecret }: { sessionSecret: string }) {
           <div className="operator-code-preview">
             {editingId ? (
               <>
-                <span className="operator-code-preview__label">كود المنتج</span>
+                <span className="operator-code-preview__label">كود العرض</span>
                 <p className="operator-code-preview__value" dir="ltr">
-                  {form.productCode}
+                  {form.offerCode}
                 </p>
               </>
             ) : (
               <>
                 <span className="operator-code-preview__label">
-                  كود المنتج سيتم إنشاؤه تلقائيًا
+                  كود العرض سيتم إنشاؤه تلقائيًا
                 </span>
                 <p className="operator-code-preview__value" dir="ltr">
-                  {generatedProductCode}
+                  {generatedOfferCode}
                 </p>
               </>
             )}
           </div>
-          <label className="product-order-flow__field">
-            <span>القسم</span>
-            <select
-              value={form.categoryId}
-              onChange={(event) => setForm({ ...form, categoryId: event.target.value })}
-            >
-              {productCategories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.title}
-                </option>
-              ))}
-            </select>
-          </label>
           <label className="product-order-flow__field">
             <span>السعر (نص)</span>
             <input
               value={form.priceLabel}
               onChange={(event) => setForm({ ...form, priceLabel: event.target.value })}
               required
+            />
+          </label>
+          <label className="product-order-flow__field">
+            <span>السعر القديم (اختياري)</span>
+            <input
+              value={form.oldPriceLabel}
+              onChange={(event) => setForm({ ...form, oldPriceLabel: event.target.value })}
             />
           </label>
           <label className="product-order-flow__field operator-product-form__field--wide">
@@ -230,15 +219,8 @@ function OperatorProductsPanel({ sessionSecret }: { sessionSecret: string }) {
           <OperatorImageField
             imageUrl={form.imageUrl}
             onChange={(imageUrl) => setForm({ ...form, imageUrl })}
-            uploadLabel="رفع صورة المنتج"
+            uploadLabel="رفع صورة العرض"
           />
-          <label className="product-order-flow__field">
-            <span>التوصيل</span>
-            <input
-              value={form.deliveryLabel}
-              onChange={(event) => setForm({ ...form, deliveryLabel: event.target.value })}
-            />
-          </label>
           <label className="product-order-flow__field">
             <span>الشارة (اختياري)</span>
             <input
@@ -267,7 +249,7 @@ function OperatorProductsPanel({ sessionSecret }: { sessionSecret: string }) {
         </div>
         <div className="operator-product-form__actions">
           <button type="submit" className="manual-payment-flow__confirm" disabled={saving}>
-            {saving ? 'جاري الحفظ…' : editingId ? 'حفظ التعديل' : 'إضافة المنتج'}
+            {saving ? 'جاري الحفظ…' : editingId ? 'حفظ التعديل' : 'إضافة العرض'}
           </button>
           {editingId ? (
             <button
@@ -284,8 +266,8 @@ function OperatorProductsPanel({ sessionSecret }: { sessionSecret: string }) {
         </div>
       </form>
 
-      {!loading && products.length === 0 && !message?.includes('غير مفعّلة') ? (
-        <p className="operator-message">لا توجد منتجات في قاعدة البيانات.</p>
+      {!loading && offers.length === 0 && !message?.includes('غير مفعّلة') ? (
+        <p className="operator-message">لا توجد عروض في قاعدة البيانات.</p>
       ) : null}
 
       <div className="operator-table-wrap">
@@ -294,7 +276,6 @@ function OperatorProductsPanel({ sessionSecret }: { sessionSecret: string }) {
             <tr>
               <th>الكود</th>
               <th>الاسم</th>
-              <th>القسم</th>
               <th>السعر</th>
               <th>الحالة</th>
               <th>ترتيب</th>
@@ -302,35 +283,34 @@ function OperatorProductsPanel({ sessionSecret }: { sessionSecret: string }) {
             </tr>
           </thead>
           <tbody>
-            {products.map((product) => (
-              <tr key={product.id}>
-                <td dir="ltr">{product.product_code}</td>
-                <td>{product.title}</td>
-                <td>{product.category_id}</td>
-                <td>{product.price_label}</td>
-                <td>{product.is_available ? 'متاح' : 'مخفي'}</td>
-                <td>{product.sort_order}</td>
+            {offers.map((offer) => (
+              <tr key={offer.id}>
+                <td dir="ltr">{offer.offer_code}</td>
+                <td>{offer.title}</td>
+                <td>{offer.price_label}</td>
+                <td>{offer.is_available ? 'متاح' : 'مخفي'}</td>
+                <td>{offer.sort_order}</td>
                 <td className="operator-actions">
-                  <button type="button" onClick={() => handleEdit(product)}>
+                  <button type="button" onClick={() => handleEdit(offer)}>
                     تعديل
                   </button>
-                  {product.is_available ? (
-                    <button type="button" onClick={() => void handleArchive(product.id)}>
+                  {offer.is_available ? (
+                    <button type="button" onClick={() => void handleArchive(offer.id)}>
                       إخفاء
                     </button>
                   ) : (
                     <button
                       type="button"
                       onClick={() =>
-                        void updateOperatorProduct(sessionSecret, product.id, {
-                          ...productToForm(product),
+                        void updateOperatorOffer(sessionSecret, offer.id, {
+                          ...offerToForm(offer),
                           isAvailable: true,
                         }).then((result) => {
                           if (!result.ok) {
                             setMessage(result.message);
                             return;
                           }
-                          void loadProducts();
+                          void loadOffers();
                         })
                       }
                     >

@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import {
+  databaseErrorResponse,
   dbNotConfiguredResponse,
   isDatabaseConfigured,
   methodNotAllowed,
@@ -43,7 +44,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
     return res.status(200).json({ ok: true, order });
   } catch (error) {
-    console.error('update order status failed', error);
-    return res.status(500).json({ error: 'تعذر تحديث الحالة.', code: 'DB_ERROR' });
+    return databaseErrorResponse(res, 'update order status failed', error);
   }
 }

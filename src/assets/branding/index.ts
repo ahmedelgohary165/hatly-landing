@@ -19,6 +19,7 @@ import serviceOccasions from './service-occasions.png';
 import servicePharmacy from './service-pharmacy.png';
 import serviceRoastery from './service-roastery.png';
 import serviceSportswear from './service-sportswear.png';
+import serviceToys from './toys-category.png';
 
 export const branding = {
   logoMain,
@@ -40,6 +41,7 @@ export const branding = {
     mobile: serviceMobile,
     roastery: serviceRoastery,
     cosmetics: serviceCosmetics,
+    toys: serviceToys,
     digitalMarketing: serviceDigitalMarketing,
     sportswear: serviceSportswear,
   },

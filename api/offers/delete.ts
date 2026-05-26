@@ -8,9 +8,9 @@ import {
   readJsonBody,
   requireOperatorAuth,
 } from '../_lib/http';
-import { archiveLandingProduct } from '../_lib/products';
+import { archiveLandingOffer } from '../_lib/offers';
 
-type DeleteProductBody = {
+type DeleteOfferBody = {
   id?: string;
 };
 
@@ -25,20 +25,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return dbNotConfiguredResponse(res);
   }
 
-  const body = readJsonBody<DeleteProductBody>(req);
+  const body = readJsonBody<DeleteOfferBody>(req);
   const id = typeof body?.id === 'string' ? body.id.trim() : '';
 
   if (!id) {
-    return res.status(400).json({ error: 'معرّف المنتج مطلوب.' });
+    return res.status(400).json({ error: 'معرّف العرض مطلوب.' });
   }
 
   try {
-    const product = await archiveLandingProduct(id);
-    if (!product) {
-      return res.status(404).json({ error: 'المنتج غير موجود.' });
+    const offer = await archiveLandingOffer(id);
+    if (!offer) {
+      return res.status(404).json({ error: 'العرض غير موجود.' });
     }
-    return res.status(200).json({ ok: true, product });
+    return res.status(200).json({ ok: true, offer });
   } catch (error) {
-    return databaseErrorResponse(res, 'archive product failed', error);
+    return databaseErrorResponse(res, 'archive offer failed', error);
   }
 }

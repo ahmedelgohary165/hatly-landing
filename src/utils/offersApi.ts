@@ -1,63 +1,61 @@
-import type { ProductItem } from '@/config/products';
-import { DEFAULT_DELIVERY_LABEL } from '@/config/products';
+import type { OfferItem } from '@/config/offers';
 
-export type DbLandingProduct = {
+export type DbLandingOffer = {
   id: string;
   created_at: string;
   updated_at: string;
-  product_code: string;
-  category_id: string;
+  offer_code: string;
   title: string;
   description: string | null;
   price_label: string;
+  old_price_label: string | null;
   image_url: string | null;
-  delivery_label: string;
-  is_available: boolean;
   badge: string | null;
+  is_available: boolean;
   sort_order: number;
 };
 
-export type ProductFormInput = {
-  productCode: string;
-  categoryId: string;
+export type OfferFormInput = {
+  offerCode: string;
   title: string;
   description: string;
   priceLabel: string;
+  oldPriceLabel: string;
   imageUrl: string;
-  deliveryLabel: string;
   badge: string;
   isAvailable: boolean;
   sortOrder: number;
 };
 
-export function mapDbProductToItem(row: DbLandingProduct): ProductItem {
+export function mapDbOfferToItem(row: DbLandingOffer): OfferItem {
   return {
     id: row.id,
-    productCode: row.product_code,
-    categoryId: row.category_id,
+    offerCode: row.offer_code,
     title: row.title,
     description: row.description ?? '',
     priceLabel: row.price_label,
+    oldPriceLabel: row.old_price_label ?? undefined,
     image: row.image_url ?? '',
-    deliveryLabel: row.delivery_label || DEFAULT_DELIVERY_LABEL,
+    category: 'gifts',
+    ctaLabel: 'عرض التفاصيل',
+    isFeatured: true,
     badge: row.badge ?? undefined,
-    isAvailable: row.is_available,
   };
 }
 
-export async function fetchPublicProducts(): Promise<
-  | { ok: true; products: ProductItem[] }
+export async function fetchPublicOffers(): Promise<
+  | { ok: true; offers: OfferItem[] }
   | { ok: false; code: 'DB_NOT_CONFIGURED' | 'DATABASE_ERROR' | 'NETWORK' | 'EMPTY' }
 > {
   try {
-    const response = await fetch('/api/products/list');
+    const response = await fetch('/api/offers/list');
     if (response.status === 503) {
       return { ok: false, code: 'DB_NOT_CONFIGURED' };
     }
 
     const data = (await response.json()) as {
       ok?: boolean;
-      products?: DbLandingProduct[];
+      offers?: DbLandingOffer[];
       error?: string;
     };
 
@@ -65,38 +63,40 @@ export async function fetchPublicProducts(): Promise<
       return { ok: false, code: 'DATABASE_ERROR' };
     }
 
-    if (!response.ok || !data.ok || !Array.isArray(data.products)) {
+    if (!response.ok || !data.ok || !Array.isArray(data.offers)) {
       return { ok: false, code: 'NETWORK' };
     }
 
-    if (data.products.length === 0) {
+    if (data.offers.length === 0) {
       return { ok: false, code: 'EMPTY' };
     }
 
     return {
       ok: true,
-      products: data.products.map(mapDbProductToItem).filter((product) => product.isAvailable),
+      offers: data.offers
+        .filter((row) => row.is_available)
+        .map(mapDbOfferToItem),
     };
   } catch {
     return { ok: false, code: 'NETWORK' };
   }
 }
 
-export async function fetchOperatorProducts(
+export async function fetchOperatorOffers(
   operatorSecret: string,
-): Promise<{ ok: true; products: DbLandingProduct[] } | { ok: false; message: string }> {
+): Promise<{ ok: true; offers: DbLandingOffer[] } | { ok: false; message: string }> {
   try {
-    const response = await fetch('/api/products/list', {
+    const response = await fetch('/api/offers/list', {
       headers: { 'X-Operator-Secret': operatorSecret },
     });
     const data = (await response.json()) as {
-      products?: DbLandingProduct[];
+      offers?: DbLandingOffer[];
       error?: string;
       code?: string;
     };
 
     if (response.status === 503 && data.code === 'DB_NOT_CONFIGURED') {
-      return { ok: false, message: 'قاعدة بيانات المنتجات غير مفعّلة بعد.' };
+      return { ok: false, message: 'قاعدة بيانات العروض غير مفعّلة بعد.' };
     }
     if (response.status === 500 && data.error === 'DATABASE_ERROR') {
       return { ok: false, message: 'تعذر الاتصال بقاعدة البيانات.' };
@@ -107,37 +107,37 @@ export async function fetchOperatorProducts(
     if (response.status === 401) {
       return { ok: false, message: 'كود غير صحيح.' };
     }
-    if (!response.ok || !data.products) {
-      return { ok: false, message: data.error ?? 'تعذر تحميل المنتجات.' };
+    if (!response.ok || !data.offers) {
+      return { ok: false, message: data.error ?? 'تعذر تحميل العروض.' };
     }
 
-    return { ok: true, products: data.products };
+    return { ok: true, offers: data.offers };
   } catch {
     return { ok: false, message: 'تعذر الاتصال بالخادم.' };
   }
 }
 
-export async function createOperatorProduct(
+export async function createOperatorOffer(
   operatorSecret: string,
-  input: ProductFormInput,
-): Promise<{ ok: true; product: DbLandingProduct } | { ok: false; message: string }> {
-  return mutateProduct('/api/products/create', operatorSecret, input);
+  input: OfferFormInput,
+): Promise<{ ok: true; offer: DbLandingOffer } | { ok: false; message: string }> {
+  return mutateOffer('/api/offers/create', operatorSecret, input);
 }
 
-export async function updateOperatorProduct(
+export async function updateOperatorOffer(
   operatorSecret: string,
   id: string,
-  input: ProductFormInput,
-): Promise<{ ok: true; product: DbLandingProduct } | { ok: false; message: string }> {
-  return mutateProduct('/api/products/update', operatorSecret, input, id);
+  input: OfferFormInput,
+): Promise<{ ok: true; offer: DbLandingOffer } | { ok: false; message: string }> {
+  return mutateOffer('/api/offers/update', operatorSecret, input, id);
 }
 
-export async function archiveOperatorProduct(
+export async function archiveOperatorOffer(
   operatorSecret: string,
   id: string,
 ): Promise<{ ok: boolean; message?: string }> {
   try {
-    const response = await fetch('/api/products/delete', {
+    const response = await fetch('/api/offers/delete', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -147,7 +147,7 @@ export async function archiveOperatorProduct(
     });
     const data = (await response.json()) as { error?: string };
     if (!response.ok) {
-      return { ok: false, message: data.error ?? 'تعذر إخفاء المنتج.' };
+      return { ok: false, message: data.error ?? 'تعذر إخفاء العرض.' };
     }
     return { ok: true };
   } catch {
@@ -155,12 +155,12 @@ export async function archiveOperatorProduct(
   }
 }
 
-async function mutateProduct(
+async function mutateOffer(
   url: string,
   operatorSecret: string,
-  input: ProductFormInput,
+  input: OfferFormInput,
   id?: string,
-): Promise<{ ok: true; product: DbLandingProduct } | { ok: false; message: string }> {
+): Promise<{ ok: true; offer: DbLandingOffer } | { ok: false; message: string }> {
   try {
     const response = await fetch(url, {
       method: 'POST',
@@ -170,42 +170,30 @@ async function mutateProduct(
       },
       body: JSON.stringify({
         id,
-        productCode: input.productCode,
-        categoryId: input.categoryId,
+        offerCode: input.offerCode,
         title: input.title,
         description: input.description,
         priceLabel: input.priceLabel,
+        oldPriceLabel: input.oldPriceLabel,
         imageUrl: input.imageUrl,
-        deliveryLabel: input.deliveryLabel,
         badge: input.badge,
         isAvailable: input.isAvailable,
         sortOrder: input.sortOrder,
       }),
     });
-    const data = (await response.json()) as { product?: DbLandingProduct; error?: string };
-    if (!response.ok || !data.product) {
-      return { ok: false, message: data.error ?? 'تعذر حفظ المنتج.' };
+    const data = (await response.json()) as { offer?: DbLandingOffer; error?: string };
+    if (!response.ok || !data.offer) {
+      return { ok: false, message: data.error ?? 'تعذر حفظ العرض.' };
     }
-    return { ok: true, product: data.product };
+    return { ok: true, offer: data.offer };
   } catch {
     return { ok: false, message: 'تعذر الاتصال بالخادم.' };
   }
 }
 
-export function getProductsByCategoryFromList(
-  products: ProductItem[],
-  categoryId: string,
-): ProductItem[] {
-  return products.filter(
-    (product) => product.categoryId === categoryId && product.isAvailable,
-  );
-}
-
-export function getProductByCodeFromList(
-  products: ProductItem[],
-  productCode: string,
-): ProductItem | undefined {
-  return products.find(
-    (product) => product.productCode === productCode && product.isAvailable,
-  );
+export function getOfferByCodeFromList(
+  offers: OfferItem[],
+  offerCode: string,
+): OfferItem | undefined {
+  return offers.find((offer) => offer.offerCode === offerCode);
 }

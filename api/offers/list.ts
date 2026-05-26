@@ -1,29 +1,28 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+import { isOperatorAuthorized } from '../_lib/auth';
 import {
   databaseErrorResponse,
   dbNotConfiguredResponse,
   isDatabaseConfigured,
   methodNotAllowed,
-  requireOperatorAuth,
 } from '../_lib/http';
-import { fetchLandingOrders } from '../_lib/orders';
+import { fetchLandingOffers } from '../_lib/offers';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'GET') {
     return methodNotAllowed(res, ['GET']);
   }
 
-  if (!requireOperatorAuth(req, res)) return;
-
   if (!isDatabaseConfigured()) {
     return dbNotConfiguredResponse(res);
   }
 
   try {
-    const orders = await fetchLandingOrders();
-    return res.status(200).json({ ok: true, orders });
+    const includeHidden = isOperatorAuthorized(req);
+    const offers = await fetchLandingOffers(includeHidden);
+    return res.status(200).json({ ok: true, offers, includeHidden });
   } catch (error) {
-    return databaseErrorResponse(res, 'list orders failed', error);
+    return databaseErrorResponse(res, 'list offers failed', error);
   }
 }

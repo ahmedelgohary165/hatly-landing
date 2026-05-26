@@ -18,9 +18,15 @@ Set the **same secret** for server (`OPERATOR_PASSWORD` or `OPERATOR_API_SECRET`
 
 ## Database setup
 
-1. Create a Postgres database (Vercel → Storage → Postgres, or Neon).
-2. Copy `DATABASE_URL` into Vercel env vars.
-3. Run `db/schema.sql` once in the SQL console (orders + products tables).
+1. Create a Postgres database (Vercel → Storage → Postgres, Neon, or **Supabase**).
+2. Copy the **direct Postgres** connection string into Vercel as `DATABASE_URL`.
+   - Supabase example: `postgresql://postgres:PASSWORD@db.PROJECT.supabase.co:5432/postgres`
+   - Use **Session mode / direct** (port `5432`), not the pooler URL, unless you set `prepare: false` (already configured in `api/_lib/db.ts`).
+3. Run `db/schema.sql` once in the SQL console (`landing_orders`, `landing_products`, `landing_offers`).
+
+If the database already has orders/products tables, append only the `landing_offers` section from `db/schema.sql`.
+
+The API uses the standard `postgres` npm driver with `ssl: require` — compatible with Supabase and generic Postgres URLs. Do **not** use `@vercel/postgres` with a Supabase URL.
 
 ## API endpoints
 
@@ -33,12 +39,17 @@ Set the **same secret** for server (`OPERATOR_PASSWORD` or `OPERATOR_API_SECRET`
 | `POST` | `/api/products/create` | Operator | Add product |
 | `POST` | `/api/products/update` | Operator | Edit product |
 | `POST` | `/api/products/delete` | Operator | Hide product |
+| `GET` | `/api/offers/list` | Public / Operator | Offers catalog |
+| `POST` | `/api/offers/create` | Operator | Add offer |
+| `POST` | `/api/offers/update` | Operator | Edit offer |
+| `POST` | `/api/offers/delete` | Operator | Hide offer |
 
 ## Operator access
 
 - Hub: `/operator`
 - Orders: `/operator/orders`
 - Products: `/operator/products`
+- Offers: `/operator/offers`
 - Hidden footer entry: *كود التشغيل* at bottom of site
 
 Requires `VITE_OPERATOR_PASSWORD` (or `VITE_OPERATOR_ENTRY_CODE`) at build time.
@@ -52,6 +63,6 @@ Requires `VITE_OPERATOR_PASSWORD` (or `VITE_OPERATOR_ENTRY_CODE`) at build time.
 
 ## Disable backend capture (WhatsApp-only)
 
-Remove or unset `DATABASE_URL` on Vercel. The frontend always opens WhatsApp; only DB save is skipped. Static products from `src/config/products.ts` remain available.
+Remove or unset `DATABASE_URL` on Vercel. The frontend always opens WhatsApp; only DB save is skipped. Static products from `src/config/products.ts` and static offers from `src/config/offers.ts` remain available.
 
 Legacy optional hook in `src/config/orderCapture.ts` (Google Sheet) is separate and disabled by default.
