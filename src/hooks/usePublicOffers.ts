@@ -1,22 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import { featuredOffers, offersCatalog, getOfferByCode, type OfferItem } from '@/config/offers';
+import type { OfferItem } from '@/config/offers';
 import { fetchPublicOffers, getOfferByCodeFromList } from '@/utils/offersApi';
-
-type OffersSource = 'static' | 'database';
-
-function logOffersSource(source: OffersSource) {
-  if (source === 'database') {
-    console.info('[hatly-landing] Using database offers');
-    return;
-  }
-  console.info('[hatly-landing] Using static fallback offers');
-}
 
 export function usePublicOffers() {
   const [offers, setOffers] = useState<OfferItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [source, setSource] = useState<OffersSource | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -26,12 +15,10 @@ export function usePublicOffers() {
 
       if (result.ok && result.offers.length > 0) {
         setOffers(result.offers);
-        setSource('database');
-        logOffersSource('database');
+        console.info('[hatly-landing] Using database offers');
       } else {
-        setOffers(offersCatalog);
-        setSource('static');
-        logOffersSource('static');
+        setOffers([]);
+        console.info('[hatly-landing] No database offers available');
       }
 
       setLoading(false);
@@ -42,36 +29,23 @@ export function usePublicOffers() {
     };
   }, []);
 
-  const featured = useMemo(() => {
-    if (source === 'database') {
-      return offers.slice(0, 3);
-    }
-    if (source === 'static') {
-      return featuredOffers;
-    }
-    return [];
-  }, [offers, source]);
+  const featuredOffers = useMemo(() => offers.slice(0, 3), [offers]);
 
   return {
     offers,
-    featuredOffers: featured,
+    featuredOffers,
     loading,
-    source,
+    hasOffers: offers.length > 0,
   };
 }
 
 export function useOfferByCode(offerCode: string) {
-  const { offers, loading, source } = usePublicOffers();
+  const { offers, loading } = usePublicOffers();
 
   const offer = useMemo(() => {
-    if (loading || !source) return undefined;
+    if (loading) return undefined;
+    return getOfferByCodeFromList(offers, offerCode);
+  }, [loading, offerCode, offers]);
 
-    if (source === 'database') {
-      return getOfferByCodeFromList(offers, offerCode);
-    }
-
-    return getOfferByCode(offerCode);
-  }, [loading, offerCode, offers, source]);
-
-  return { offer, loading, source };
+  return { offer, loading };
 }

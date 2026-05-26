@@ -4,13 +4,13 @@ import { PageMeta } from '@/components/PageMeta';
 import { usePublicOffers } from '@/hooks/usePublicOffers';
 
 export function Offers() {
-  const { offers, loading } = usePublicOffers();
+  const { offers, loading, hasOffers } = usePublicOffers();
 
   return (
     <>
       <PageMeta
         title="عروض هاتلي — اختار العرض المناسب"
-        description="عروض هاتلي: هدايا، ميكب، ومناسبات. اختار العرض واطلبه عبر الدفع اليدوي وتأكيد واتساب."
+        description="عروض هاتلي: اختار العرض واطلبه عبر الدفع اليدوي وتأكيد واتساب."
         path="/offers"
       />
 
@@ -21,16 +21,26 @@ export function Offers() {
       >
         {loading ? <p className="operator-message">جاري تحميل العروض…</p> : null}
 
-        {!loading ? (
+        {!loading && hasOffers ? (
           <div className="offers-page-grid" role="list">
             {offers.map((offer) => (
               <OfferCard key={offer.id} offer={offer} />
             ))}
           </div>
         ) : null}
-        <p className="ip-note offers-page-note">
-          الأسعار والعروض قابلة للتحديث — التأكيد النهائي بعد مراجعة صورة التحويل يدويًا.
-        </p>
+
+        {!loading && !hasOffers ? (
+          <div className="products-empty" role="status">
+            <p className="products-empty__title">سيتم إضافة العروض قريبًا</p>
+            <p className="products-empty__text">تابع هاتلي لمعرفة أحدث العروض.</p>
+          </div>
+        ) : null}
+
+        {hasOffers ? (
+          <p className="ip-note offers-page-note">
+            الأسعار والعروض قابلة للتحديث — التأكيد النهائي بعد مراجعة صورة التحويل يدويًا.
+          </p>
+        ) : null}
       </InnerPageShell>
     </>
   );

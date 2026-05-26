@@ -36,9 +36,6 @@ export function mapDbOfferToItem(row: DbLandingOffer): OfferItem {
     priceLabel: row.price_label,
     oldPriceLabel: row.old_price_label ?? undefined,
     image: row.image_url ?? '',
-    category: 'gifts',
-    ctaLabel: 'عرض التفاصيل',
-    isFeatured: true,
     badge: row.badge ?? undefined,
   };
 }

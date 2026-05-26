@@ -4,8 +4,17 @@ import { OfferCard } from '@/components/OfferCard';
 import { usePublicOffers } from '@/hooks/usePublicOffers';
 import { landingCopy } from '@/config/site';
 
+function OffersEmptyState() {
+  return (
+    <div className="products-empty" role="status">
+      <p className="products-empty__title">سيتم إضافة العروض قريبًا</p>
+      <p className="products-empty__text">تابع هاتلي لمعرفة أحدث العروض.</p>
+    </div>
+  );
+}
+
 export function OffersSection() {
-  const { featuredOffers, loading } = usePublicOffers();
+  const { featuredOffers, loading, hasOffers } = usePublicOffers();
 
   return (
     <section className="lp-sec lp-sec--offers" aria-labelledby="lp-offers-head">
@@ -19,7 +28,7 @@ export function OffersSection() {
 
       {loading ? <p className="operator-message">جاري تحميل العروض…</p> : null}
 
-      {!loading ? (
+      {!loading && hasOffers ? (
         <div className="lp-offers-track" role="list">
           {featuredOffers.map((offer) => (
             <OfferCard key={offer.id} offer={offer} />
@@ -27,11 +36,15 @@ export function OffersSection() {
         </div>
       ) : null}
 
-      <div className="lp-offers-foot">
-        <NavLink to="/offers" className="lp-btn-offers-all">
-          {landingCopy.offersViewAll}
-        </NavLink>
-      </div>
+      {!loading && !hasOffers ? <OffersEmptyState /> : null}
+
+      {hasOffers ? (
+        <div className="lp-offers-foot">
+          <NavLink to="/offers" className="lp-btn-offers-all">
+            {landingCopy.offersViewAll}
+          </NavLink>
+        </div>
+      ) : null}
     </section>
   );
 }
