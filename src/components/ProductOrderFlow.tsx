@@ -71,9 +71,6 @@ export function ProductOrderFlow({ requiredDepositLabel, onSubmit }: ProductOrde
           <div className="ip-card__content">
             <p className="product-order-flow__deposit-value">{requiredDepositLabel}</p>
             <p>{DEPOSIT_INSTRUCTION}</p>
-            <p className="manual-payment-flow__warn">
-              الطلب لا يُعتمد تلقائيًا — فريق هاتلي يراجع صورة التحويل يدويًا قبل التأكيد.
-            </p>
           </div>
         </div>
       </article>

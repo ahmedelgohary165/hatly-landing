@@ -67,15 +67,17 @@ export async function fetchPublicOffers(): Promise<
       return { ok: false, code: 'NETWORK' };
     }
 
-    if (data.offers.length === 0) {
+    const offers = data.offers
+      .filter((row) => row.is_available)
+      .map(mapDbOfferToItem);
+
+    if (offers.length === 0) {
       return { ok: false, code: 'EMPTY' };
     }
 
     return {
       ok: true,
-      offers: data.offers
-        .filter((row) => row.is_available)
-        .map(mapDbOfferToItem),
+      offers,
     };
   } catch {
     return { ok: false, code: 'NETWORK' };

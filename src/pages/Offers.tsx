@@ -21,11 +21,13 @@ export function Offers() {
       >
         {loading ? <p className="operator-message">جاري تحميل العروض…</p> : null}
 
-        <div className="offers-page-grid" role="list">
-          {offers.map((offer) => (
-            <OfferCard key={offer.id} offer={offer} />
-          ))}
-        </div>
+        {!loading ? (
+          <div className="offers-page-grid" role="list">
+            {offers.map((offer) => (
+              <OfferCard key={offer.id} offer={offer} />
+            ))}
+          </div>
+        ) : null}
         <p className="ip-note offers-page-note">
           الأسعار والعروض قابلة للتحديث — التأكيد النهائي بعد مراجعة صورة التحويل يدويًا.
         </p>

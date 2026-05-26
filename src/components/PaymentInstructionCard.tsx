@@ -14,9 +14,6 @@ export function PaymentInstructionCard() {
             <li>اضغط &quot;تأكيد الطلب وفتح واتساب&quot;.</li>
             <li>ابعت صورة التحويل في نفس المحادثة لتأكيد الطلب.</li>
           </ol>
-          <p className="payment-instruction-card__note">
-            الطلب لا يُعتمد تلقائيًا — فريق هاتلي يراجع صورة التحويل يدويًا قبل التأكيد.
-          </p>
         </div>
       </div>
     </article>

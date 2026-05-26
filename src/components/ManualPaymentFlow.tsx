@@ -116,9 +116,6 @@ export function ManualPaymentFlow({ onConfirm }: ManualPaymentFlowProps) {
               <li>ابعت صورة التحويل في نفس المحادثة لتأكيد الطلب.</li>
             </ol>
             <p className="manual-payment-flow__note">{paymentFlowNote}</p>
-            <p className="manual-payment-flow__warn">
-              الطلب لا يُعتمد تلقائيًا — فريق هاتلي يراجع صورة التحويل يدويًا قبل التأكيد.
-            </p>
           </div>
         </div>
       </article>

@@ -19,11 +19,13 @@ export function OffersSection() {
 
       {loading ? <p className="operator-message">جاري تحميل العروض…</p> : null}
 
-      <div className="lp-offers-track" role="list">
-        {featuredOffers.map((offer) => (
-          <OfferCard key={offer.id} offer={offer} />
-        ))}
-      </div>
+      {!loading ? (
+        <div className="lp-offers-track" role="list">
+          {featuredOffers.map((offer) => (
+            <OfferCard key={offer.id} offer={offer} />
+          ))}
+        </div>
+      ) : null}
 
       <div className="lp-offers-foot">
         <NavLink to="/offers" className="lp-btn-offers-all">
