@@ -7,8 +7,8 @@ import {
   methodNotAllowed,
   readJsonBody,
   requireOperatorAuth,
-} from '../_lib/http';
-import { archiveLandingProduct } from '../_lib/products';
+} from '../_lib/http.js';
+import { archiveLandingProduct } from '../_lib/products.js';
 
 type DeleteProductBody = {
   id?: string;

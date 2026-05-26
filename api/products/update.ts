@@ -7,9 +7,9 @@ import {
   methodNotAllowed,
   readJsonBody,
   requireOperatorAuth,
-} from '../_lib/http';
-import { getPostgresErrorCode } from '../_lib/db';
-import { updateLandingProduct } from '../_lib/products';
+} from '../_lib/http.js';
+import { getPostgresErrorCode } from '../_lib/db.js';
+import { updateLandingProduct } from '../_lib/products.js';
 
 type UpdateProductBody = {
   id?: string;

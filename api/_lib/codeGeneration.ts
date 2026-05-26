@@ -1,9 +1,9 @@
-import { getSql } from './db';
+import { getSql } from './db.js';
 import {
   STATIC_PRODUCT_CODES,
   computeNextOfferCode,
   computeNextProductCode,
-} from './codes';
+} from './codes.js';
 
 export async function generateNextProductCode(categoryId: string): Promise<string> {
   const sql = getSql();

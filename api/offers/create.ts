@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { generateNextOfferCode } from '../_lib/codeGeneration';
-import { getPostgresErrorCode } from '../_lib/db';
+import { generateNextOfferCode } from '../_lib/codeGeneration.js';
+import { getPostgresErrorCode } from '../_lib/db.js';
 import {
   databaseErrorResponse,
   dbNotConfiguredResponse,
@@ -9,8 +9,8 @@ import {
   methodNotAllowed,
   readJsonBody,
   requireOperatorAuth,
-} from '../_lib/http';
-import { insertLandingOffer } from '../_lib/offers';
+} from '../_lib/http.js';
+import { insertLandingOffer } from '../_lib/offers.js';
 
 type CreateOfferBody = {
   offerCode?: string;

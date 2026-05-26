@@ -7,8 +7,8 @@ import {
   methodNotAllowed,
   readJsonBody,
   requireOperatorAuth,
-} from '../_lib/http';
-import { isValidOrderStatus, updateLandingOrderStatus } from '../_lib/orders';
+} from '../_lib/http.js';
+import { isValidOrderStatus, updateLandingOrderStatus } from '../_lib/orders.js';
 
 type UpdateStatusBody = {
   id?: string;

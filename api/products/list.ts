@@ -1,13 +1,13 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { isOperatorAuthorized } from '../_lib/auth';
+import { isOperatorAuthorized } from '../_lib/auth.js';
 import {
   databaseErrorResponse,
   dbNotConfiguredResponse,
   isDatabaseConfigured,
   methodNotAllowed,
-} from '../_lib/http';
-import { fetchLandingProducts } from '../_lib/products';
+} from '../_lib/http.js';
+import { fetchLandingProducts } from '../_lib/products.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'GET') {

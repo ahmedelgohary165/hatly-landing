@@ -6,8 +6,8 @@ import {
   isDatabaseConfigured,
   methodNotAllowed,
   readJsonBody,
-} from '../_lib/http';
-import { insertLandingOrder } from '../_lib/orders';
+} from '../_lib/http.js';
+import { insertLandingOrder } from '../_lib/orders.js';
 
 type CreateOrderBody = {
   customerWhatsapp?: string;

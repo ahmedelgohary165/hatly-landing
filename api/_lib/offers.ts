@@ -1,4 +1,4 @@
-import { getSql } from './db';
+import { getSql } from './db.js';
 
 export type LandingOfferRow = {
   id: string;

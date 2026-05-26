@@ -7,10 +7,10 @@ import {
   methodNotAllowed,
   readJsonBody,
   requireOperatorAuth,
-} from '../_lib/http';
-import { generateNextProductCode } from '../_lib/codeGeneration';
-import { getPostgresErrorCode } from '../_lib/db';
-import { insertLandingProduct } from '../_lib/products';
+} from '../_lib/http.js';
+import { generateNextProductCode } from '../_lib/codeGeneration.js';
+import { getPostgresErrorCode } from '../_lib/db.js';
+import { insertLandingProduct } from '../_lib/products.js';
 
 type CreateProductBody = {
   productCode?: string;

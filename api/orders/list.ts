@@ -6,8 +6,8 @@ import {
   isDatabaseConfigured,
   methodNotAllowed,
   requireOperatorAuth,
-} from '../_lib/http';
-import { fetchLandingOrders } from '../_lib/orders';
+} from '../_lib/http.js';
+import { fetchLandingOrders } from '../_lib/orders.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'GET') {

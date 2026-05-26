@@ -4,7 +4,7 @@ import {
   isOperatorAuthorized,
   operatorNotConfiguredResponse,
   operatorUnauthorizedResponse,
-} from './auth';
+} from './auth.js';
 
 export function isDatabaseConfigured(): boolean {
   return Boolean(process.env.DATABASE_URL?.trim());
