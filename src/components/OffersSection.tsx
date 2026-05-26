@@ -1,13 +1,10 @@
 import { NavLink } from 'react-router-dom';
 
 import { OfferCard } from '@/components/OfferCard';
-import { getAppDownloadUrl } from '@/config/download';
 import { featuredOffers } from '@/config/offers';
 import { landingCopy } from '@/config/site';
 
 export function OffersSection() {
-  const downloadHref = getAppDownloadUrl();
-
   return (
     <section className="lp-sec lp-sec--offers" aria-labelledby="lp-offers-head">
       <div className="lp-sec-head lp-sec-head--tight">
@@ -20,7 +17,7 @@ export function OffersSection() {
 
       <div className="lp-offers-track" role="list">
         {featuredOffers.map((offer) => (
-          <OfferCard key={offer.id} offer={offer} ctaHref={downloadHref} />
+          <OfferCard key={offer.id} offer={offer} />
         ))}
       </div>
 

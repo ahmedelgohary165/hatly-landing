@@ -6,6 +6,7 @@ export type OfferCategory = 'gifts' | 'makeup' | 'occasions';
 
 export type OfferItem = {
   id: string;
+  offerCode: string;
   title: string;
   description: string;
   priceLabel: string;
@@ -21,6 +22,7 @@ export type OfferItem = {
 export const offersCatalog: OfferItem[] = [
   {
     id: 'gifts',
+    offerCode: 'OFFER-GIFTS',
     title: 'عرض هدايا',
     description: 'هدايا مميزة لكل المناسبات — اختار اللي يناسبك.',
     priceLabel: 'من ١٩٩ ج',
@@ -32,6 +34,7 @@ export const offersCatalog: OfferItem[] = [
   },
   {
     id: 'makeup',
+    offerCode: 'OFFER-MAKEUP',
     title: 'عرض ميكب',
     description: 'مستحضرات وميكب بعناية — توصيل لحد بابك.',
     priceLabel: 'من ١٤٩ ج',
@@ -44,6 +47,7 @@ export const offersCatalog: OfferItem[] = [
   },
   {
     id: 'occasions',
+    offerCode: 'OFFER-OCCASIONS',
     title: 'عرض مناسبات',
     description: 'تجهيزات مناسبات جاهزة — وفّر وقتك وجهدك.',
     priceLabel: 'باقات متنوعة',
@@ -56,3 +60,7 @@ export const offersCatalog: OfferItem[] = [
 ];
 
 export const featuredOffers = offersCatalog.filter((o) => o.isFeatured);
+
+export function getOfferByCode(offerCode: string): OfferItem | undefined {
+  return offersCatalog.find((offer) => offer.offerCode === offerCode);
+}

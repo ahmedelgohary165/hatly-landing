@@ -9,6 +9,7 @@ import './styles/landing-polish.css';
 import './styles/landing-premium.css';
 import './styles/landing-refine.css';
 import './styles/inner-pages.css';
+import './styles/products.css';
 import App from './App';
 
 const rootEl = document.getElementById('root');

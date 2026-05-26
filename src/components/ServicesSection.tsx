@@ -1,3 +1,5 @@
+import { NavLink } from 'react-router-dom';
+
 import { branding } from '@/assets/branding';
 import { landingCopy, servicesContent } from '@/config/site';
 
@@ -12,21 +14,28 @@ export function ServicesSection() {
       </div>
       <div className="lp-srv-grid lp-srv-grid--visual" role="list">
         {servicesContent.map(({ title, desc, imageKey }) => (
-          <article key={title} className="lp-srv-card-v2 lp-srv-card-v2--premium" role="listitem">
-            <div className="lp-srv-card-v2__thumb">
-              <img
-                src={branding.services[imageKey]}
-                alt=""
-                className="lp-srv-card-v2__img"
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-            <div className="lp-srv-card-v2__text">
-              <h3>{title}</h3>
-              <p>{desc}</p>
-            </div>
-          </article>
+          <NavLink
+            key={title}
+            to={`/categories/${imageKey}`}
+            className="lp-srv-card-v2-link"
+            role="listitem"
+          >
+            <article className="lp-srv-card-v2 lp-srv-card-v2--premium">
+              <div className="lp-srv-card-v2__thumb">
+                <img
+                  src={branding.services[imageKey]}
+                  alt=""
+                  className="lp-srv-card-v2__img"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div className="lp-srv-card-v2__text">
+                <h3>{title}</h3>
+                <p>{desc}</p>
+              </div>
+            </article>
+          </NavLink>
         ))}
       </div>
     </section>

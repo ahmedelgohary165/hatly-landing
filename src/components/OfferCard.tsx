@@ -1,11 +1,12 @@
+import { NavLink } from 'react-router-dom';
+
 import type { OfferItem } from '@/config/offers';
 
 type OfferCardProps = {
   offer: OfferItem;
-  ctaHref: string;
 };
 
-export function OfferCard({ offer, ctaHref }: OfferCardProps) {
+export function OfferCard({ offer }: OfferCardProps) {
   return (
     <article className="lp-offer-card" role="listitem">
       <div className="lp-offer-card__media">
@@ -22,6 +23,9 @@ export function OfferCard({ offer, ctaHref }: OfferCardProps) {
         <span className="lp-offer-card__shine" aria-hidden />
       </div>
       <div className="lp-offer-card__body">
+        <p className="lp-offer-card__code" dir="ltr">
+          {offer.offerCode}
+        </p>
         <h3>{offer.title}</h3>
         <p>{offer.description}</p>
         <p className="lp-offer-card__price-row">
@@ -30,14 +34,9 @@ export function OfferCard({ offer, ctaHref }: OfferCardProps) {
           ) : null}
           <span className="lp-offer-card__price">{offer.priceLabel}</span>
         </p>
-        <a
-          className="lp-offer-card__cta"
-          href={ctaHref}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {offer.ctaLabel}
-        </a>
+        <NavLink className="lp-offer-card__cta" to={`/offers/${offer.offerCode}`}>
+          عرض التفاصيل
+        </NavLink>
       </div>
     </article>
   );

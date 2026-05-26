@@ -2,6 +2,7 @@ import { NavLink, Outlet, useLocation } from 'react-router-dom';
 
 import { BrandLogo } from '@/components/BrandLogo';
 import { FooterMail } from '@/components/FooterMail';
+import { FooterOperatorEntry } from '@/components/FooterOperatorEntry';
 import { FloatingWhatsApp } from '@/components/FloatingWhatsApp';
 import { MobileNav } from '@/components/MobileNav';
 import { SocialLinksRow } from '@/components/SocialLinksRow';
@@ -86,6 +87,7 @@ export function SiteLayout() {
             <FooterMail />
           </div>
           <p className="site-credit site-footer-wrap__credit">Developed by Ahmed Elgohary</p>
+          <FooterOperatorEntry />
         </div>
       </footer>
 
